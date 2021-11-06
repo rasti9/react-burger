@@ -1,0 +1,29 @@
+.scroll {
+  overflow-y: scroll;
+  height: 650px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.addSpaceFirstAndLastItem {
+  margin-left: 36px;
+  margin-bottom: 12px;
+}
+
+.marginRight44 {
+  margin-right: 44px;
+}

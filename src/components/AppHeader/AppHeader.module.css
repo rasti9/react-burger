@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.styleIcon {
+  display: flex;
+  align-items: center;
+  flex-basis: 10%;
+}
+
+.styleIcon15 {
+  composes: styleIcon;
+  flex-basis: 15%;
+}
+
+.logo {
+  composes: styleIcon;
+  flex-basis: 30%;
+}
