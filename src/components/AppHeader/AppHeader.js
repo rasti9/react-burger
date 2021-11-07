@@ -6,23 +6,22 @@ import headerStyle from "./AppHeader.module.css";
 function AppHeader() {
     return ( 
         <div className={headerStyle.header}  >
-            <div className={headerStyle.styleIcon} >
-            <BurgerIcon type="primary"  />
-            <span className="text text_type_main-default ml-2">Конструктор</span>
+            <div className={headerStyle.styleIconBurger} >
+                <BurgerIcon type="primary"  />
+                <span className="text text_type_main-default ml-2">Конструктор</span>
             </div>
             <div className={headerStyle.styleIcon15}>
-            <ListIcon  type="secondary" />
-            <span className="text text_type_main-default text_color_inactive ml-2" > Лента заказов</span>
+                <ListIcon  type="secondary" />
+                <span className="text text_type_main-default text_color_inactive ml-2" > Лента заказов</span>
             </div>
             <div className={headerStyle.logo}>
-            <Logo  ></Logo>
+                <Logo />
             </div>
             <div className={headerStyle.styleIcon} >
-            <ProfileIcon type="secondary" />
-            <span className="text text_type_main-default text_color_inactive ml-2" >Личный кабинет</span>
+                <ProfileIcon type="secondary" />
+                <span className="text text_type_main-default text_color_inactive ml-2" >Личный кабинет</span>
             </div>
-        </div>
-       
+        </div>    
     );
   }
 

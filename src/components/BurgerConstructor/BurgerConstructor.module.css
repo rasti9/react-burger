@@ -1,9 +1,11 @@
 .scroll {
   overflow-y: scroll;
-  height: 650px;
+  height: 600px;
+  margin-bottom: 10px;
 }
 
 .footer {
+  margin-top: 10px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -11,17 +13,6 @@
 
 ul {
   list-style-type: none;
-}
-
-.listItem {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-}
-
-.addSpaceFirstAndLastItem {
-  margin-left: 36px;
-  margin-bottom: 12px;
 }
 
 .marginRight44 {
