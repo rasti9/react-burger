@@ -14,16 +14,9 @@ function App() {
         </nav>
       </header>
       <main className={appStyle.mainStyle}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <div className={appStyle.columnStyle}>
           <h1>Соберите бургер</h1>
-          <section
-            style={{ display: "flex", flexDirection: "row", gap: "10px" }}
-          >
+          <section className={appStyle.rowStyle}>
             <BurgerIngredients data={data} />
             <BurgerConstructor data={data} />
           </section>

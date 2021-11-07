@@ -5,16 +5,12 @@
 }
 
 .columnStyle {
-  display: "flex";
-  flex-direction: "column";
+  display: flex;
+  flex-direction: column;
 }
 
 .rowStyle {
-  display: "flex";
-  flex-direction: "row";
-  gap: "10px";
-}
-
-.test {
-  background: red;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
