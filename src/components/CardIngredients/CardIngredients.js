@@ -1,12 +1,26 @@
-import React from "react";
+import React, {useState,useCallback } from "react";
 import {CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 const Card = (props) => {
- const {image, name, price} = props;
+ 
+ const {image, name, price, ...desc} = props;
+ const [visibleModal, setVisibleModal] = useState(false);
+   
+  const handleOpenModal = useCallback(() =>{
+    setVisibleModal(true);
+  }, [])
+
+  const handleCloseModal = useCallback(() =>{
+    setVisibleModal(false);
+  }, [])
+
+
   return (  
-    <li className={cardStyle.card}>
+    <div>
+    <li className={cardStyle.card} onClick={handleOpenModal}>
         <img src={image} alt={name}/>
         <div className={cardStyle.priceIcon} >
             <span className="text text_type_digits-default mr-2">{price}</span>
@@ -14,13 +28,16 @@ const Card = (props) => {
         </div>
         <span className="text text_type_main-defaul mb-3">{name}</span>
     </li>
+      {visibleModal && <IngredientDetails name={name} proteins={desc.proteins} fat={desc.fat} carbohydrates={desc.carbohydrates} calories={desc.calories} image={desc.image_large} handleClose={handleCloseModal} />}
+      </div>
   )
 }
 
 Card.propTypes = {
     img: PropTypes.string,
     price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.object.isRequired
   };
 
 

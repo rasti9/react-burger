@@ -8,7 +8,7 @@ const ListCards = (props) => {
     const aList= [];
 
     data.filter(item => item.type === props.type).forEach(function(item) {
-      aList.push(<Card key={item._id} image={item.image} price={item.price} name={item.name}/>)
+      aList.push(<Card key={item._id} {...item}/>)
     })
 
   return  <ul className={listCardStyle.list}>{aList}</ul>

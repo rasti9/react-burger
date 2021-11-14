@@ -1,13 +1,24 @@
-import React from "react";
+import React, {useState, useCallback} from "react";
 import burgerStyle from "./BurgerConstructor.module.css";
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import TotalSum from "../TotalSum/TotalSum";
 import Bun from "../Bun/Bun";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
+import OrderDetails from "../OrderDetails/OrderDetails";
+
 
 const BurgerConstructor = (props) => {
   const {data} = props;
+  const [visibleModal, setVisibleModal] = useState(false);
+   
+  const handleOpenModal = useCallback(() =>{
+    setVisibleModal(true);
+  }, [])
+
+  const handleCloseModal = useCallback(() =>{
+    setVisibleModal(false);
+  }, [])
 
   return (
     <div>
@@ -19,7 +30,10 @@ const BurgerConstructor = (props) => {
             <TotalSum data={props.data} />
             <CurrencyIcon />
           </div>
-          <Button type="primary" size="large">Оформить заказ</Button>
+          <div >
+            <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
+            {visibleModal && <OrderDetails handleClose={handleCloseModal} />}
+          </div>
         </div>
     </div>
   )

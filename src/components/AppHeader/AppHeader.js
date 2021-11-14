@@ -5,6 +5,8 @@ import headerStyle from "./AppHeader.module.css";
 
 function AppHeader() {
     return ( 
+        <header>
+        <nav>
         <div className={headerStyle.header}  >
             <div className={headerStyle.styleIconBurger} >
                 <BurgerIcon type="primary"  />
@@ -21,7 +23,9 @@ function AppHeader() {
                 <ProfileIcon type="secondary" />
                 <span className="text text_type_main-default text_color_inactive ml-2" >Личный кабинет</span>
             </div>
-        </div>    
+        </div>   
+        </nav>
+      </header>
     );
   }
 
