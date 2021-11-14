@@ -12,7 +12,7 @@ const ModalOverlay = React.memo((props) => {
 }) 
 
 ModalOverlay.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

@@ -30,7 +30,7 @@ const Modal = React.memo((props) => {
 }) 
 
 Modal.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

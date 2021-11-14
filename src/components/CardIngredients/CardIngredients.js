@@ -37,7 +37,7 @@ Card.propTypes = {
     img: PropTypes.string,
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    desc: PropTypes.object.isRequired
+    desc: PropTypes.object
   };
 
 
