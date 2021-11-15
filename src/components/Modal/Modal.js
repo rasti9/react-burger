@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = React.memo((props) => {
-    const { children, onClose } = props;
+    const { children, handleClose } = props;
 
     const onKeyDown = (event) => {
       if(event.key === "Escape"){
-        onClose();
+        handleClose();
       }
     };
 
@@ -22,16 +22,17 @@ const Modal = React.memo((props) => {
     }, [])
 
      return ReactDOM.createPortal(
-      <ModalOverlay onClose={onClose}> 
-          {children}
-      </ModalOverlay>,
+       <div>
+        {children},
+        <ModalOverlay handleClose={handleClose}> </ModalOverlay>
+      </div>,
       modalRoot
     );
 }) 
 
 Modal.propTypes = {
   children: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
 
 export default Modal;

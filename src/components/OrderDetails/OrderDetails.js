@@ -1,14 +1,12 @@
 import React from "react";
 import orderStyle from "./OrderDetails.module.css";
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from "../Modal/Modal";
 import DoneGif from "../../images/done.gif";
 import PropTypes from 'prop-types';
  
 const OrderDetails = React.memo((props) => {
    const {handleClose} = props;
      return (
-      <Modal onClose={handleClose} > 
         <div className={orderStyle.modal} >
           <div className={orderStyle.header}>
             <CloseIcon onClick={handleClose}/>
@@ -21,7 +19,6 @@ const OrderDetails = React.memo((props) => {
             <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
           </div>
         </div>
-      </Modal>
     )
   })
 

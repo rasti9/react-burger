@@ -3,6 +3,7 @@ import {CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import Modal from "../Modal/Modal";
 
 const Card = (props) => {
  
@@ -28,7 +29,9 @@ const Card = (props) => {
         </div>
         <span className="text text_type_main-defaul mb-3">{name}</span>
     </li>
-      {visibleModal && <IngredientDetails name={name} proteins={desc.proteins} fat={desc.fat} carbohydrates={desc.carbohydrates} calories={desc.calories} image={desc.image_large} handleClose={handleCloseModal} />}
+      {visibleModal && <Modal handleClose={handleCloseModal}>
+      <IngredientDetails name={name} proteins={desc.proteins} fat={desc.fat} carbohydrates={desc.carbohydrates} calories={desc.calories} image={desc.image_large} handleClose={handleCloseModal} />
+      </Modal>}
       </div>
   )
 }

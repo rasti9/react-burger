@@ -1,13 +1,11 @@
 import React from "react";
 import ingredientDetailsStyle from "./IngredientDetails.module.css";
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from "../Modal/Modal";
 import PropTypes from 'prop-types';
  
 const IngredientDetails = React.memo((props) => {
     const {name, proteins, fat, carbohydrates, calories, image, handleClose} = props;
      return (
-      <Modal onClose={handleClose} > 
         <div className={ingredientDetailsStyle.modal}>
             <div className={ingredientDetailsStyle.header}>
                 <p className="text text_type_main-large">Детали ингредиента</p>
@@ -36,7 +34,6 @@ const IngredientDetails = React.memo((props) => {
                 </div>
             </div>
         </div>
-      </Modal>
     )
   })
 

@@ -3,17 +3,14 @@ import modalOverlayStyle from "./ModalOverlay.module.css";
 import PropTypes from 'prop-types';
 
 const ModalOverlay = React.memo((props) => {
-    const {children, onClose} = props;
+    const {handleClose} = props;
     return (
-      <div className={modalOverlayStyle.modalOverlay} onClick={onClose}>
-        {children}
-      </div>
+      <div className={modalOverlayStyle.modalOverlay} onClick={handleClose} />
     );
 }) 
 
 ModalOverlay.propTypes = {
-  children: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
 
 

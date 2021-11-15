@@ -12,14 +12,16 @@ function App() {
 
   useEffect(() => {
     try {
-      fetch(URL)
-        .then((response) => {
-          return response.json();
-        })
-        .then((response) => {
-          setData(response.data);
-          setLoading(false);
-        });
+      const getIngredients = async () => {
+        const response = await fetch(URL);
+        if (!response.ok) {
+          throw new Error('Ответ сети был не ok.');
+        }
+        const data = await response.json();
+        setData(data.data);
+        setLoading(false);
+      }
+      getIngredients();
     } catch (error) {
       console.error("Ошибка:", error);
     }

@@ -6,6 +6,7 @@ import TotalSum from "../TotalSum/TotalSum";
 import Bun from "../Bun/Bun";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import Modal from "../Modal/Modal";
 
 
 const BurgerConstructor = (props) => {
@@ -32,7 +33,7 @@ const BurgerConstructor = (props) => {
           </div>
           <div >
             <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
-            {visibleModal && <OrderDetails handleClose={handleCloseModal} />}
+            {visibleModal && < Modal handleClose={handleCloseModal}><OrderDetails handleClose={handleCloseModal}/></Modal>}
           </div>
         </div>
     </div>
