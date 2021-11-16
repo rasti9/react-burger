@@ -2,3 +2,12 @@
   height: 800px;
   overflow-y: scroll;
 }
+
+.list {
+  display: grid;
+  grid-template-columns: 268px 268px;
+}
+
+.displayFlex {
+  display: flex;
+}

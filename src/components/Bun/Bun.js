@@ -5,17 +5,18 @@ import PropTypes from 'prop-types';
 
 
 const Bun = (props) => {
-  const bunElement = props.data.find(item => item.type === "bun");
+  const {data, position} = props;
+  const bunElement = data.find(item => item.type === "bun");
   let text = bunElement.name + " (верх)";
 
-  if (props.position === "bottom") {
+  if (position === "bottom") {
     text = bunElement.name + " (вниз)"
   } 
 
   return (
     <div className={bunStyle.addSpaceFirstAndLastItem}>
       <ConstructorElement
-        type = {props.position}
+        type = {position}
         text={text} 
         price={bunElement.price}
         thumbnail={bunElement.image}
@@ -26,7 +27,20 @@ const Bun = (props) => {
 
 
 Bun.propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.arrayOf(PropTypes.shape({
+       _id : PropTypes.string.isRequired,
+       name: PropTypes.string.isRequired,
+       type: PropTypes.string.isRequired,
+       proteins: PropTypes.number.isRequired,
+       fat: PropTypes.number.isRequired,
+       carbohydrates: PropTypes.number.isRequired,
+       calories: PropTypes.number.isRequired,
+       price: PropTypes.number.isRequired,
+       image: PropTypes.string.isRequired,
+       image_mobile: PropTypes.string.isRequired,
+       image_large: PropTypes.string.isRequired
+    })).isRequired,
+    position: PropTypes.string.isRequired
   };
 
 export default Bun;

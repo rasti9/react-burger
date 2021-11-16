@@ -23,17 +23,17 @@ const BurgerConstructor = (props) => {
 
   return (
     <div>
-      <Bun data={props.data} position="top"/>
-      <ul className={burgerStyle.scroll}>{data.map(item => <BurgerConstructorListItem key={item._id} name={item.name} price={item.price} image={item.image}/>)}</ul>
-      <Bun data={props.data} position="bottom"/>
+      <Bun data={data} position="top"/>
+      <ul className={burgerStyle.scroll}>{data.map((item, index) => <BurgerConstructorListItem key={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
+      <Bun data={data} position="bottom"/>
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>
-            <TotalSum data={props.data} />
+            <TotalSum data={data} />
             <CurrencyIcon />
           </div>
           <div >
             <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
-            {visibleModal && < Modal handleClose={handleCloseModal}><OrderDetails handleClose={handleCloseModal}/></Modal>}
+            {visibleModal && < Modal handleClose={handleCloseModal}><OrderDetails/></Modal>}
           </div>
         </div>
     </div>
@@ -41,7 +41,19 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.arrayOf(PropTypes.shape({
+    _id : PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    image_mobile: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired
+ })).isRequired
 };
 
 

@@ -14,13 +14,13 @@ const BurgerConstructorListItem = (props) => {
           text={name}
           price={price}
           thumbnail={image}/>
-          </li>
+        </li>
     </div>
   )
 }
 
 BurgerConstructorListItem.propTypes = {
-  image: PropTypes.string,
+  image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired
 };

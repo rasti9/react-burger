@@ -11,8 +11,8 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const getIngredients = async () => {
+    const getIngredients = async () => {
+        try {
         const response = await fetch(URL);
         if (!response.ok) {
           throw new Error('Ответ сети был не ok.');
@@ -20,11 +20,11 @@ function App() {
         const data = await response.json();
         setData(data.data);
         setLoading(false);
+      } catch (error) {
+        console.error("Ошибка:", error);
       }
-      getIngredients();
-    } catch (error) {
-      console.error("Ошибка:", error);
     }
+    getIngredients();
   }, []);
 
   return (

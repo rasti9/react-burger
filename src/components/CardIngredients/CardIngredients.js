@@ -6,7 +6,6 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 
 const Card = (props) => {
- 
  const {image, name, price, ...desc} = props;
  const [visibleModal, setVisibleModal] = useState(false);
    
@@ -16,8 +15,9 @@ const Card = (props) => {
 
   const handleCloseModal = useCallback(() =>{
     setVisibleModal(false);
-  }, [])
+  }, []);
 
+  const header = "Детали ингредиента";
 
   return (  
     <div>
@@ -29,18 +29,27 @@ const Card = (props) => {
         </div>
         <span className="text text_type_main-defaul mb-3">{name}</span>
     </li>
-      {visibleModal && <Modal handleClose={handleCloseModal}>
-      <IngredientDetails name={name} proteins={desc.proteins} fat={desc.fat} carbohydrates={desc.carbohydrates} calories={desc.calories} image={desc.image_large} handleClose={handleCloseModal} />
+      {visibleModal && <Modal handleClose={handleCloseModal} header={header}>
+      <IngredientDetails name={name} proteins={desc.proteins} fat={desc.fat} carbohydrates={desc.carbohydrates} calories={desc.calories} image={desc.image_large}/>
       </Modal>}
       </div>
   )
 }
 
 Card.propTypes = {
-    img: PropTypes.string,
+    image: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    desc: PropTypes.object
+    desc: PropTypes.shape({
+      _id : PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      proteins: PropTypes.number.isRequired,
+      fat: PropTypes.number.isRequired,
+      carbohydrates: PropTypes.number.isRequired,
+      calories: PropTypes.number.isRequired,
+      image_mobile: PropTypes.string.isRequired,
+      image_large: PropTypes.string.isRequired
+   })
   };
 
 
