@@ -1,0 +1,16 @@
+.mainStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.columnStyle {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowStyle {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

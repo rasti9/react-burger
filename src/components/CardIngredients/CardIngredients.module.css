@@ -1,0 +1,12 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.priceIcon {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+}

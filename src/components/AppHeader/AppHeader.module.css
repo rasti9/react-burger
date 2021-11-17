@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.styleIconBurger {
+  display: flex;
+  align-items: center;
+  flex-basis: 10%;
+}
+
+.styleIcon {
+  display: flex;
+  align-items: center;
+  flex-basis: 10%;
+}
+
+.styleIcon15 {
+  composes: styleIcon;
+  flex-basis: 15%;
+}
+
+.logo {
+  composes: styleIcon;
+  flex-basis: 33%;
+}

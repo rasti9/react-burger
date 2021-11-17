@@ -1,0 +1,20 @@
+.centerColumnItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.rowItems {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.columnItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
