@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useContext} from "react";
 import burgerStyle from "./BurgerConstructor.module.css";
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
@@ -7,14 +7,48 @@ import Bun from "../Bun/Bun";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
+import { IngredientsContext } from '../../services/ingredientsContext.js';
+import { ConstructorContext } from '../../services/constructorContext.js';
+import { OrderContext } from '../../services/orderContext.js';
 
+const URL_CREATE_ORDER = "https://norma.nomoreparties.space/api/orders";
+let response_data;
 
-const BurgerConstructor = (props) => {
-  const {data} = props;
+const BurgerConstructor = () => {
+  const data = useContext(IngredientsContext);
+
+  const firstBunElement = data.find(x=> x.type === "bun");
+  const constructorData = data.filter(e => e.type !== "bun")
+  constructorData.push(firstBunElement);
+
   const [visibleModal, setVisibleModal] = useState(false);
    
   const handleOpenModal = useCallback(() =>{
-    setVisibleModal(true);
+  const aIDs = constructorData.map(x => x._id);
+  const oID = {
+    "ingredients": aIDs
+  };
+
+  const createOrder = async () => {
+    try {
+      const response = await fetch(URL_CREATE_ORDER, {
+        method: 'POST', 
+        body: JSON.stringify(oID),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Ответ сети был не ok.');
+      }
+      response_data = await response.json();
+      setVisibleModal(true);
+
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
+  }
+    createOrder();
   }, [])
 
   const handleCloseModal = useCallback(() =>{
@@ -23,38 +57,28 @@ const BurgerConstructor = (props) => {
 
   return (
     <div>
-      <Bun data={data} position="top"/>
-      <ul className={burgerStyle.scroll}>{data.map((item, index) => <BurgerConstructorListItem key={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
-      <Bun data={data} position="bottom"/>
+      <ConstructorContext.Provider value={constructorData}>
+      <Bun position="top"/>
+      <ul className={burgerStyle.scroll}>{constructorData.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem key={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
+      <Bun position="bottom"/>
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>
-            <TotalSum data={data} />
+            <TotalSum />
             <CurrencyIcon />
           </div>
           <div >
             <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
-            {visibleModal && < Modal handleClose={handleCloseModal}><OrderDetails/></Modal>}
+            {visibleModal && 
+            < Modal handleClose={handleCloseModal}>
+            <OrderContext.Provider value={response_data}>
+            <OrderDetails/>
+            </OrderContext.Provider>
+            </Modal>}
           </div>
         </div>
+        </ConstructorContext.Provider>
     </div>
   )
 }
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id : PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired
- })).isRequired
-};
-
 
 export default BurgerConstructor;

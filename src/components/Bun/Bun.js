@@ -1,16 +1,18 @@
-import React from "react";
+import React, {useContext} from "react";
 import bunStyle from "./Bun.module.css";
 import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-
+import { ConstructorContext } from '../../services/constructorContext.js';
 
 const Bun = (props) => {
-  const {data, position} = props;
+  const {position} = props;
+  const data = useContext(ConstructorContext);
+
   const bunElement = data.find(item => item.type === "bun");
   let text = bunElement.name + " (верх)";
 
   if (position === "bottom") {
-    text = bunElement.name + " (вниз)"
+    text = bunElement.name + " (низ)"
   } 
 
   return (
@@ -27,19 +29,6 @@ const Bun = (props) => {
 
 
 Bun.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape({
-       _id : PropTypes.string.isRequired,
-       name: PropTypes.string.isRequired,
-       type: PropTypes.string.isRequired,
-       proteins: PropTypes.number.isRequired,
-       fat: PropTypes.number.isRequired,
-       carbohydrates: PropTypes.number.isRequired,
-       calories: PropTypes.number.isRequired,
-       price: PropTypes.number.isRequired,
-       image: PropTypes.string.isRequired,
-       image_mobile: PropTypes.string.isRequired,
-       image_large: PropTypes.string.isRequired
-    })).isRequired,
     position: PropTypes.string.isRequired
   };
 

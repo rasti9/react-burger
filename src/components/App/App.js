@@ -3,6 +3,7 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import appStyle from "./App.module.css";
+import { IngredientsContext } from '../../services/ingredientsContext.js';
 
 const URL = "https://norma.nomoreparties.space/api/ingredients";
 
@@ -36,7 +37,9 @@ function App() {
             <h1>Соберите бургер</h1>
             <section className={appStyle.rowStyle}>
               <BurgerIngredients data={data} />
-              <BurgerConstructor data={data} />
+              <IngredientsContext.Provider value={data} >
+              <BurgerConstructor/>
+              </IngredientsContext.Provider>
             </section>
           </div>
         </main>
