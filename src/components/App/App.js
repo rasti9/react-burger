@@ -3,9 +3,10 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import appStyle from "./App.module.css";
-import { IngredientsContext } from '../../services/ingredientsContext.js';
+import { BurgerContext } from '../../services/burgerContext.js';
+import {URL} from '../../constants/constants.js';
 
-const URL = "https://norma.nomoreparties.space/api/ingredients";
+const URL_INGREDIENTS = `${URL}/ingredients`;
 
 function App() {
   const [data, setData] = useState([]);
@@ -14,7 +15,7 @@ function App() {
   useEffect(() => {
     const getIngredients = async () => {
         try {
-        const response = await fetch(URL);
+        const response = await fetch(URL_INGREDIENTS);
         if (!response.ok) {
           throw new Error('Ответ сети был не ok.');
         }
@@ -31,18 +32,18 @@ function App() {
   return (
      !isLoading && 
       <div>
+       <BurgerContext.Provider value={data} >
         <AppHeader />
         <main className={appStyle.mainStyle}>
           <div className={appStyle.columnStyle}>
             <h1>Соберите бургер</h1>
             <section className={appStyle.rowStyle}>
-              <BurgerIngredients data={data} />
-              <IngredientsContext.Provider value={data} >
+              <BurgerIngredients/>
               <BurgerConstructor/>
-              </IngredientsContext.Provider>
             </section>
           </div>
         </main>
+        </BurgerContext.Provider>
       </div>
     ) 
 }

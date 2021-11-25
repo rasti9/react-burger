@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyle from "./BurgerIngredients.module.css";
-import PropTypes from 'prop-types';
 import Card from "../CardIngredients/CardIngredients";
+import { BurgerContext } from '../../services/burgerContext.js';
 
-const BurgerIngredients = (props) => {
-    const {data} = props;
+const BurgerIngredients = () => {
+    const data = useContext(BurgerContext);
     const [current, setCurrent] = React.useState('Bread')
 
     return (  
@@ -33,20 +33,5 @@ const BurgerIngredients = (props) => {
     )
   }
 
-  BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape({
-      _id : PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired
-   })).isRequired
-  };
 
 export default BurgerIngredients;

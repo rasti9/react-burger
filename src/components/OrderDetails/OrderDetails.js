@@ -1,10 +1,10 @@
-import React, {useContext} from "react";
+import React from "react";
 import orderStyle from "./OrderDetails.module.css";
 import DoneGif from "../../images/done.gif";
-import { OrderContext } from '../../services/orderContext.js';
+import PropTypes from 'prop-types';
  
-const OrderDetails = React.memo(() => {
-  const data = useContext(OrderContext);
+const OrderDetails = React.memo((props) => {
+  const {data} = props;
     return (
         <div className={orderStyle.centerItems}>
           <p className="text text_type_digits-large">{data.order.number}</p>
@@ -15,5 +15,13 @@ const OrderDetails = React.memo(() => {
         </div>
   )
   })
+
+  OrderDetails.propTypes = {
+    data: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      order: PropTypes.object.isRequired,
+      success: PropTypes.string.isRequired,
+    }).isRequired
+  };
 
 export default OrderDetails;

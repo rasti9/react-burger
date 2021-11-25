@@ -1,21 +1,20 @@
 import React, {useState, useCallback, useContext} from "react";
 import burgerStyle from "./BurgerConstructor.module.css";
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import TotalSum from "../TotalSum/TotalSum";
 import Bun from "../Bun/Bun";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
-import { IngredientsContext } from '../../services/ingredientsContext.js';
-import { ConstructorContext } from '../../services/constructorContext.js';
-import { OrderContext } from '../../services/orderContext.js';
+import { BurgerContext } from '../../services/burgerContext.js';
+import {URL} from '../../constants/constants.js';
 
-const URL_CREATE_ORDER = "https://norma.nomoreparties.space/api/orders";
-let response_data;
+const URL_CREATE_ORDER = `${URL}/orders`;
+
 
 const BurgerConstructor = () => {
-  const data = useContext(IngredientsContext);
+  const data = useContext(BurgerContext);
+  const [responseData, setResponseData] = useState(null);
 
   const firstBunElement = data.find(x=> x.type === "bun");
   const constructorData = data.filter(e => e.type !== "bun")
@@ -41,7 +40,8 @@ const BurgerConstructor = () => {
       if (!response.ok) {
         throw new Error('Ответ сети был не ok.');
       }
-      response_data = await response.json();
+      let response_data = await response.json();
+      setResponseData(response_data);
       setVisibleModal(true);
 
     } catch (error) {
@@ -57,26 +57,22 @@ const BurgerConstructor = () => {
 
   return (
     <div>
-      <ConstructorContext.Provider value={constructorData}>
-      <Bun position="top"/>
+      <Bun data={constructorData} position="top"/>
       <ul className={burgerStyle.scroll}>{constructorData.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem key={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
-      <Bun position="bottom"/>
+      <Bun data={constructorData} position="bottom"/>
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>
-            <TotalSum />
+            <TotalSum data={constructorData}/>
             <CurrencyIcon />
           </div>
           <div >
             <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
             {visibleModal && 
             < Modal handleClose={handleCloseModal}>
-            <OrderContext.Provider value={response_data}>
-            <OrderDetails/>
-            </OrderContext.Provider>
+            <OrderDetails data={responseData}/>
             </Modal>}
           </div>
         </div>
-        </ConstructorContext.Provider>
     </div>
   )
 }
