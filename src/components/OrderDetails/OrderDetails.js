@@ -20,7 +20,7 @@ const OrderDetails = React.memo((props) => {
     data: PropTypes.shape({
       name: PropTypes.string.isRequired,
       order: PropTypes.object.isRequired,
-      success: PropTypes.string.isRequired,
+      success: PropTypes.bool.isRequired,
     }).isRequired
   };
 
