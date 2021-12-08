@@ -1,75 +1,69 @@
 import React, {useState, useCallback, useContext} from "react";
 import burgerStyle from "./BurgerConstructor.module.css";
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import TotalSum from "../TotalSum/TotalSum";
 import Bun from "../Bun/Bun";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
-import { BurgerContext } from '../../services/burgerContext.js';
 import {URL} from '../../constants/constants.js';
+import { useDrop } from "react-dnd";
+import {createOrder} from '../../services/actions/index.js';
 
-const URL_CREATE_ORDER = `${URL}/orders`;
 
+const BurgerConstructor = (props) => {
+  const {handleDrop} = props;
 
-const BurgerConstructor = () => {
-  const data = useContext(BurgerContext);
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(itemId) {
+      handleDrop(itemId);
+    }
+});
+
+  const { ingredients_constructor } = useSelector(state => state.ingredientsConstructor);
+  
   const [responseData, setResponseData] = useState(null);
-
-  const firstBunElement = data.find(x=> x.type === "bun");
-  const constructorData = data.filter(e => e.type !== "bun")
-  constructorData.push(firstBunElement);
-
   const [visibleModal, setVisibleModal] = useState(false);
+
+  const firstBunElement = ingredients_constructor.find(x=> x.type === "bun");
+  const constructorData = ingredients_constructor.filter(e => e.type !== "bun");
+  const dispatch = useDispatch();
+
+  if (firstBunElement) {
+    constructorData.push(firstBunElement);
+  }
    
-  const handleOpenModal = useCallback(() =>{
+  const handleOpenModal = useCallback(() => {
   const aIDs = constructorData.map(x => x._id);
   const oID = {
     "ingredients": aIDs
   };
-
-  const createOrder = async () => {
-    try {
-      const response = await fetch(URL_CREATE_ORDER, {
-        method: 'POST', 
-        body: JSON.stringify(oID),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (!response.ok) {
-        throw new Error('Ответ сети был не ok.');
-      }
-      let response_data = await response.json();
-      setResponseData(response_data);
-      setVisibleModal(true);
-
-    } catch (error) {
-      console.error("Ошибка:", error);
-    }
-  }
-    createOrder();
-  }, [])
+    dispatch(createOrder(oID));
+    setVisibleModal(true);
+  })
 
   const handleCloseModal = useCallback(() =>{
     setVisibleModal(false);
-  }, [])
+  }, []);
+
 
   return (
-    <div>
-      <Bun data={constructorData} position="top"/>
-      <ul className={burgerStyle.scroll}>{constructorData.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem key={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
-      <Bun data={constructorData} position="bottom"/>
+    <div ref={dropTarget} className={burgerStyle.container}>
+      {ingredients_constructor && <Bun position="top"/>}
+      <ul  className={burgerStyle.scroll}>{ingredients_constructor.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem _id={item._id} customID={item.customID} key={item.customID} index={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
+     {ingredients_constructor &&  <Bun position="bottom"/>}
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>
-            <TotalSum data={constructorData}/>
+            <TotalSum />
             <CurrencyIcon />
           </div>
           <div >
             <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
             {visibleModal && 
             < Modal handleClose={handleCloseModal}>
-            <OrderDetails data={responseData}/>
+            <OrderDetails />
             </Modal>}
           </div>
         </div>

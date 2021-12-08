@@ -18,3 +18,8 @@ ul {
 .marginRight44 {
   margin-right: 44px;
 }
+
+.container {
+  width: 500px;
+  height: 600px;
+}

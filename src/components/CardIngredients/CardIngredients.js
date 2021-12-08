@@ -1,56 +1,59 @@
 import React, {useState,useCallback } from "react";
-import {CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
+import { useSelector, useDispatch } from 'react-redux';
+import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/index.js';
+import { useDrag } from "react-dnd";
 
 const Card = (props) => {
- const {image, name, price, ...desc} = props;
+ const {item, handleDrag} = props;
  const [visibleModal, setVisibleModal] = useState(false);
-   
-  const handleOpenModal = useCallback(() =>{
-    setVisibleModal(true);
+ const dispatch = useDispatch();
+ let counter = 0;
+ const { count_ingredients } = useSelector(state => state.ingredients);
+
+ const oAddedIngredientInConstructor = count_ingredients.find(x => x.id === item._id);
+ if (oAddedIngredientInConstructor) {
+   counter = oAddedIngredientInConstructor.count;
+ }
+
+const handleOpenModal = useCallback((item) =>{
+   dispatch(setCurrentIngredient(item));
+   setVisibleModal(true);
   }, [])
 
   const handleCloseModal = useCallback(() =>{
+    dispatch(deleteCurrentIngredient());
     setVisibleModal(false);
   }, []);
 
   const header = "Детали ингредиента";
 
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: {item}
+});
+
   return (  
-    <div>
-    <li className={cardStyle.card} onClick={handleOpenModal}>
-        <img src={image} alt={name}/>
+    <div  ref={dragRef} className={cardStyle.card} onClick={() => handleOpenModal(item)}  onDrag={(e) => handleDrag(e, item)}>
+       {counter !== 0 && <div className={cardStyle.counterStyle}>
+          <Counter count={counter} size="default" />
+        </div> }
+        <img src={item.image} alt={item.name} />
+        
         <div className={cardStyle.priceIcon} >
-            <span className="text text_type_digits-default mr-2">{price}</span>
+            <span className="text text_type_digits-default mr-2">{item.price}</span>
             <CurrencyIcon />
         </div>
-        <span className="text text_type_main-defaul mb-3">{name}</span>
-    </li>
+        <span className="text text_type_main-defaul mb-3">{item.name}</span>
       {visibleModal && <Modal handleClose={handleCloseModal} header={header}>
-      <IngredientDetails name={name} proteins={desc.proteins} fat={desc.fat} carbohydrates={desc.carbohydrates} calories={desc.calories} image={desc.image_large}/>
+      <IngredientDetails name={item.name} proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} calories={item.calories} image={item.image_large}/>
       </Modal>}
       </div>
   )
 }
-
-Card.propTypes = {
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    desc: PropTypes.shape({
-      _id : PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired
-   })
-  };
-
 
 export default Card;

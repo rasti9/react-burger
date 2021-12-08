@@ -10,3 +10,9 @@
   flex-direction: row;
   margin-bottom: 10px;
 }
+
+.counterStyle {
+  position: relative;
+  display: flex;
+  align-self: flex-end;
+}
