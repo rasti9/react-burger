@@ -60,7 +60,7 @@ const BurgerConstructorListItem = (props) => {
       }
       dispatch(moveConstructorIngredient(dragIndex, hoverIndex)) 
 
-      //draggedItem.index = hoverIndex;
+      draggedItem.index = hoverIndex;
 
     }
   }); 
