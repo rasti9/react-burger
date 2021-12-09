@@ -8,7 +8,7 @@ import { useDrag, useDrop } from "react-dnd";
 
 const BurgerConstructorListItem = (props) => {
   
-  const item = props;
+  const {index, customID, ...item} = props;
   const dispatch = useDispatch();
   const ref = useRef(null);
   const style = {
@@ -19,7 +19,7 @@ const BurgerConstructorListItem = (props) => {
 
   const [{ isDragging }, dragRef] = useDrag({
     type: "constructor_element",
-    item: item,
+    item: {index, customID},
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     })
@@ -32,9 +32,8 @@ const BurgerConstructorListItem = (props) => {
       if (!ref.current) {
         return;
      }
-     
       const dragIndex = draggedItem.index;
-      const hoverIndex = item.index;
+      const hoverIndex = index;
 
       if (dragIndex === hoverIndex) {
         return;
@@ -68,8 +67,8 @@ const BurgerConstructorListItem = (props) => {
   const opacity = isDragging ? 0 : 1;
   dragRef(dropTargetList(ref));
 
-  const handleDelete = (item) => {
-    dispatch(deleteConstructorIngredient(item));
+  const handleDelete = (customID, item) => {
+    dispatch(deleteConstructorIngredient(customID));
     dispatch(deleteCountIngredient(item));
   }
 
@@ -80,7 +79,7 @@ const BurgerConstructorListItem = (props) => {
         <ConstructorElement
           text={item.name}
           price={item.price}
-          handleClose={() => handleDelete(item)}
+          handleClose={() => handleDelete(customID, item)}
           thumbnail={item.image}/>
         </li>
     </div>
@@ -88,9 +87,14 @@ const BurgerConstructorListItem = (props) => {
 }
 
 BurgerConstructorListItem.propTypes = {
-  image: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired
-};
+  index: PropTypes.number.isRequired,
+  customID: PropTypes.number.isRequired,
+  item: PropTypes.shape({
+    _id : PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired
+}).isRequired
+}
 
 export default BurgerConstructorListItem;

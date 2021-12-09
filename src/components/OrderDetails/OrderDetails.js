@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const OrderDetails = React.memo(() => {
   const { order } = useSelector(state => state.order);
-  debugger;
     return (
         <div className={orderStyle.centerItems}>
           <p className="text text_type_digits-large">{order.number}</p>

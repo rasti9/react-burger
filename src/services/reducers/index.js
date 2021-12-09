@@ -14,23 +14,22 @@ import {
     DELETE_INGREDIENT_CONSTRUCTOR,
     DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
     MOVE_INGREDIENT_CONSTRUCTOR,
-    UPDATE_CURRENT_TAB,
-    URL
-} from '../../constants/constants.js';
+    UPDATE_CURRENT_TAB
+} from '../actions/action.js';
 
 const initialStateIngredients =  {
         ingredients: [],
-        count_ingredients: [],
+        countIngredients: [],
         ingredientsRequest: [],
         ingredientsFailed: []        
     }
 
     const initialStateIngredientsConstructor = {
-        ingredients_constructor: []
+        ingredientsConstructor: []
     }
 
     const initialStateCurrentIngredient = {
-        current_ingredient: {}
+        currentIngredient: {}
     }
 
     const initialStateOrder = {
@@ -77,7 +76,7 @@ const getIngredients = (state = initialStateIngredients, action) => {
                     ...state, 
                     // Запрос выполнился успешно, помещаем полученные данные в хранилище
                     ingredients: action.ingredients, 
-                    count_ingredients: action.ingredients.map(function(item) {
+                    countIngredients: action.ingredients.map(function(item) {
                         return {id : item._id, count: 0};
                       }),
                     // Запрос закончил своё выполнение
@@ -86,7 +85,7 @@ const getIngredients = (state = initialStateIngredients, action) => {
         }
         case GET_INGREDIENTS_FAILED: {
           return { 
-                    ...state, 
+                    state: initialStateIngredients, 
                     // Запрос выполнился с ошибкой, 
                     // выставляем соответсвующие значения в хранилище
                     ingredientsFailed: true, 
@@ -95,17 +94,17 @@ const getIngredients = (state = initialStateIngredients, action) => {
                 };
         }
         case SET_COUNT_INGREDIENT_CONSTRUCTOR: {
-            let item = state.count_ingredients.find(item => item.id === action.item._id);
+            let item = state.countIngredients.find(item => item.id === action.item._id);
             return {
                   ...state,                        
-                  count_ingredients: [...state.count_ingredients, {...item, count: item.count++}] 
+                  countIngredients: [...state.countIngredients, {...item, count: item.count++}] 
             } 
           }
         case DELETE_COUNT_INGREDIENT_CONSTRUCTOR: {
-            let item = state.count_ingredients.find(item => item.id === action.item._id);
+            let item = state.countIngredients.find(item => item.id === action.item._id);
             return {
                     ...state,                        
-                    count_ingredients: [...state.count_ingredients, {...item, count: item.count--}] 
+                    countIngredients: [...state.countIngredients, {...item, count: item.count--}] 
             } 
             }  
                 default: {
@@ -117,31 +116,28 @@ const getIngredients = (state = initialStateIngredients, action) => {
 const modifyIngredientsConstructor = (state = initialStateIngredientsConstructor, action) => {
     switch (action.type) {
         case ADD_INGREDIENT_CONSTRUCTOR: {
-            let dateStamp = new Date().getTime();
-            action.item = {...action.item, key: dateStamp, customID : dateStamp}
           return {
-                ...state,
                 // Запрос начал выполняться state.tabs.map(tab => tab.id === action.id ? {...tab, ratio: action.ratio} : tab)
-                ingredients_constructor: [...state.ingredients_constructor, action.item]                        
-                //count_ingredients_constructor: state.count_ingredients_constructor.map(item => item.id === action.item._id ? {...item, count: item.count++} : item)
+                ingredientsConstructor: [...state.ingredientsConstructor, action.item]                        
           } 
         }
         case DELETE_INGREDIENT_CONSTRUCTOR: {
             return {
-                  ...state,
-                  // Запрос начал выполняться
-                  ingredients_constructor: state.ingredients_constructor.filter(item => item.customID !== action.item.customID)
+                  ingredientsConstructor: state.ingredientsConstructor.filter(item => item.customID !== action.customID)
             } 
           }
           case MOVE_INGREDIENT_CONSTRUCTOR: {
-            const drag_ingredient = state.ingredients_constructor[action.dragIndex];
-            let new_ingredients_constructor = [...state.ingredients_constructor];
-            new_ingredients_constructor.splice(action.dragIndex, 1);
-            new_ingredients_constructor.splice(action.hoverIndex, 0, drag_ingredient);
+            const dragIngredient = state.ingredientsConstructor[action.dragIndex];
+            const bunElement = state.ingredientsConstructor.find(item => item.type === "bun");
+            let newIngredientsConstructor = [...state.ingredientsConstructor].filter(item => item.type !== "bun");
+            newIngredientsConstructor.splice(action.dragIndex, 1);
+            newIngredientsConstructor.splice(action.hoverIndex, 0, dragIngredient);
+            if (bunElement) {
+                newIngredientsConstructor.push(bunElement);
+            }
             return {
                   ...state,
-                  // Запрос начал выполняться
-                  ingredients_constructor: [...new_ingredients_constructor]
+                  ingredientsConstructor: newIngredientsConstructor
             } 
           }  
         default: {
@@ -156,14 +152,14 @@ const modifyCurrentIngredient = (state = initialStateCurrentIngredient, action) 
           return {
                 ...state,
                 // Запрос начал выполняться
-                current_ingredient: action.current_ingredient
+                currentIngredient: action.currentIngredient
           } 
         }
         case DELETE_CURRENT_INGREDIENT: {
             return {
                   ...state,
                   // Запрос начал выполняться
-                  current_ingredient: {}
+                  currentIngredient: {}
             } 
           }
         default: {
@@ -185,7 +181,6 @@ const createOrder = (state = initialStateOrder, action) => {
           };
         }
         case CREATE_ORDER_SUCCESS: {
-            debugger;
           return { 
                     ...state, 
                     // Запрос выполнился успешно, помещаем полученные данные в хранилище
@@ -196,7 +191,7 @@ const createOrder = (state = initialStateOrder, action) => {
         }
         case CREATE_ORDER_FAILED: {
           return { 
-                    ...state, 
+                    state: initialStateOrder, 
                     // Запрос выполнился с ошибкой, 
                     // выставляем соответсвующие значения в хранилище
                     orderFailed: true, 

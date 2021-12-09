@@ -1,69 +1,52 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import appStyle from "./App.module.css";
-import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { rootReducer } from '../../services/reducers/index.js';
-import thunk from 'redux-thunk';
 import {addConstructorIngredient, setCountIngredient, deleteConstructorIngredient, deleteCountIngredient} from '../../services/actions/index.js';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose; 
-
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-const store = createStore(rootReducer, enhancer); 
+import {store} from '../../services/store.js';
 
 const AppWrapper = () => {
   return (
     <Provider store={store}> 
-     <DndProvider backend={HTML5Backend}>
       <App /> 
-    </DndProvider>
     </Provider>
   )
 }
 
 function App() {
   const dispatch = useDispatch();
+  const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
+  const {ingredients} = useSelector(state => state.ingredients);
 
+  const handleDrop = (({_id}) => {
+    const dateStamp = new Date().getTime();
+    const draggedElement = ingredients.find(item => item._id === _id);
+    const copyDraggedElement = {...draggedElement, key: dateStamp, customID : dateStamp};
 
-  const [draggedElement, setDraggedElement] = useState({});
-  const { ingredients_constructor } = useSelector(state => state.ingredientsConstructor);
-
-  const handleDrop = useCallback((e, index) => {
-
-    if (draggedElement.type === "bun") {
-      let oPreviousBun = ingredients_constructor.find(item => item.type === "bun");
+    if (copyDraggedElement.type === "bun") {
+      let oPreviousBun = ingredientsConstructor.find(e => e.type === "bun");
       if (oPreviousBun && oPreviousBun._id === draggedElement._id) {
           return;
-      } else if (oPreviousBun && oPreviousBun._id !== draggedElement._id) {
+      } else if (oPreviousBun && oPreviousBun._id !== copyDraggedElement._id) {
           dispatch(deleteConstructorIngredient(oPreviousBun));
           dispatch(deleteCountIngredient(oPreviousBun));
-          dispatch(addConstructorIngredient(draggedElement));
-          dispatch(setCountIngredient(draggedElement));
+          dispatch(addConstructorIngredient(copyDraggedElement));
+          dispatch(setCountIngredient(copyDraggedElement));
           return;
       } else {
-          dispatch(addConstructorIngredient(draggedElement));
-          dispatch(setCountIngredient(draggedElement));
+          dispatch(addConstructorIngredient(copyDraggedElement));
+          dispatch(setCountIngredient(copyDraggedElement));
           return;
       }
     }
-    dispatch(addConstructorIngredient(draggedElement));
-    dispatch(setCountIngredient(draggedElement));
+    dispatch(addConstructorIngredient(copyDraggedElement));
+    dispatch(setCountIngredient(copyDraggedElement));
 
-    setDraggedElement({});
-  });
-
-  const handleDrag = useCallback((e, currentElement) => {
-    e.preventDefault();
-    setDraggedElement(currentElement);
   });
 
   return (
@@ -73,8 +56,10 @@ function App() {
           <div className={appStyle.columnStyle}>
             <h1>Соберите бургер</h1>
             <section className={appStyle.rowStyle}>
-              <BurgerIngredients handleDrag={handleDrag}/>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients/>
               <BurgerConstructor handleDrop={handleDrop}/>
+            </DndProvider>
             </section>
           </div>
         </main>

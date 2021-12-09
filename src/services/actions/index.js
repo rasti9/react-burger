@@ -12,9 +12,9 @@ import {
     UPDATE_CURRENT_TAB,
     CREATE_ORDER,
     CREATE_ORDER_SUCCESS,
-    CREATE_ORDER_FAILED,
-    URL
-} from '../../constants/constants.js';
+    CREATE_ORDER_FAILED
+} from './action.js';
+import {URL} from '../../constants/constants.js';
 
 const URL_INGREDIENTS = `${URL}/ingredients`;
 const URL_CREATE_ORDER = `${URL}/orders`;
@@ -50,7 +50,7 @@ export const setCurrentIngredient = (item) => {
   return function(dispatch) {
     dispatch({
       type: SET_CURRENT_INGREDIENT,
-      current_ingredient: item
+      currentIngredient: item
     })
   }
 }
@@ -81,11 +81,11 @@ export const setCountIngredient = (item) => {
   }
 }
 
-export const deleteConstructorIngredient = (item) => {
+export const deleteConstructorIngredient = (customID) => {
   return function(dispatch) {
     dispatch({
       type: DELETE_INGREDIENT_CONSTRUCTOR,
-      item: item
+      customID: customID
     })
   }
 }

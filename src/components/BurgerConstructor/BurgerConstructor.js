@@ -10,6 +10,7 @@ import Modal from "../Modal/Modal";
 import {URL} from '../../constants/constants.js';
 import { useDrop } from "react-dnd";
 import {createOrder} from '../../services/actions/index.js';
+import PropTypes from 'prop-types';
 
 
 const BurgerConstructor = (props) => {
@@ -22,38 +23,30 @@ const BurgerConstructor = (props) => {
     }
 });
 
-  const { ingredients_constructor } = useSelector(state => state.ingredientsConstructor);
+  const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
+  const dispatch = useDispatch();
   
-  const [responseData, setResponseData] = useState(null);
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const firstBunElement = ingredients_constructor.find(x=> x.type === "bun");
-  const constructorData = ingredients_constructor.filter(e => e.type !== "bun");
-  const dispatch = useDispatch();
-
-  if (firstBunElement) {
-    constructorData.push(firstBunElement);
-  }
-   
   const handleOpenModal = useCallback(() => {
-  const aIDs = constructorData.map(x => x._id);
+  const aIDs = [...ingredientsConstructor.map(x => x._id)];
   const oID = {
     "ingredients": aIDs
   };
     dispatch(createOrder(oID));
     setVisibleModal(true);
-  })
+  }, [dispatch])
 
-  const handleCloseModal = useCallback(() =>{
+  const handleCloseModal = () =>{
     setVisibleModal(false);
-  }, []);
+  };
 
 
   return (
     <div ref={dropTarget} className={burgerStyle.container}>
-      {ingredients_constructor && <Bun position="top"/>}
-      <ul  className={burgerStyle.scroll}>{ingredients_constructor.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem _id={item._id} customID={item.customID} key={item.customID} index={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
-     {ingredients_constructor &&  <Bun position="bottom"/>}
+      {ingredientsConstructor && <Bun position="top"/>}
+      <ul  className={burgerStyle.scroll}>{ingredientsConstructor.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem _id={item._id} customID={item.customID} key={item.customID} index={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
+     {ingredientsConstructor &&  <Bun position="bottom"/>}
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>
             <TotalSum />
@@ -70,5 +63,9 @@ const BurgerConstructor = (props) => {
     </div>
   )
 }
+
+BurgerConstructor.propTypes = {
+  handleDrop: PropTypes.func.isRequired
+};
 
 export default BurgerConstructor;

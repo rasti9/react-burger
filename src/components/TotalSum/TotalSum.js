@@ -1,11 +1,10 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const TotalSum = () => {
-  const { ingredients_constructor } = useSelector(state => state.ingredientsConstructor);
+  const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
   let totalSum = 0;
-  ingredients_constructor.forEach(function(item) {
+  ingredientsConstructor.forEach(function(item) {
     totalSum += item.price
   })
   

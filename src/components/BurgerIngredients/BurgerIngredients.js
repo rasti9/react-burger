@@ -9,8 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import Section from "../Section/Section.js";
 
 
-const BurgerIngredients = (props) => {
-    const {handleDrag} = props;
+const BurgerIngredients = () => {
     const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(state => state.ingredients);
     const {tabs} = useSelector(state => state.tabs);
 
@@ -20,7 +19,7 @@ const BurgerIngredients = (props) => {
     useEffect(()=> {
       // Отправляем экшен-функцию
       dispatch(getIngredients())
-    }, [])
+    }, [dispatch])
 
     const currentTab = tabs.reduce((current, tab) => {
       return current.ratio < tab.ratio ? tab : current
@@ -44,11 +43,11 @@ const BurgerIngredients = (props) => {
         </div>
         <div className={ingredientsStyle.heightScroll}>
           <h1 className="text text_type_main-medium mt-5">Булки</h1>
-          <ul className={ingredientsStyle.list}><Section handleDrag={handleDrag} id="bun" ingredients={ingredients.filter(item => item.type === "bun")} /> </ul>
+          <ul className={ingredientsStyle.list}><Section id="bun" ingredients={ingredients.filter(item => item.type === "bun")} /> </ul>
           <h1 className="text text_type_main-medium">Соусы</h1>
-          <ul className={ingredientsStyle.list}><Section handleDrag={handleDrag} id="sauce" ingredients={ingredients.filter(item => item.type === "sauce")} /></ul>
+          <ul className={ingredientsStyle.list}><Section id="sauce" ingredients={ingredients.filter(item => item.type === "sauce")} /></ul>
           <h1 className="text text_type_main-medium">Начинки</h1>
-          <ul className={ingredientsStyle.list}><Section handleDrag={handleDrag} id="fill" ingredients={ingredients.filter(item => item.type === "main")} /></ul>
+          <ul className={ingredientsStyle.list}><Section id="fill" ingredients={ingredients.filter(item => item.type === "main")} /></ul>
         </div>
       </div>
     )

@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Bun = (props) => {
-  const { ingredients_constructor } = useSelector(state => state.ingredientsConstructor);
+  const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
   const {position} = props;
   let text;
 
-  if (ingredients_constructor.length !== 0) {
+  if (ingredientsConstructor.length !== 0) {
 
-  const bunElement = ingredients_constructor.find(item => item.type === "bun");
+  const bunElement = ingredientsConstructor.find(item => item.type === "bun");
 
   if (bunElement) {
       text = bunElement.name + " (верх)";
