@@ -33,7 +33,7 @@ const BurgerIngredients = () => {
     } else if (ingredients) {
 
     return (  
-      <div>
+      <div >
         <div className={ingredientsStyle.displayFlex}>
           {tabs.map(({ id, title }) => (
               <Tab key={id} value={id} active={currentTab === id}>
@@ -41,7 +41,7 @@ const BurgerIngredients = () => {
               </Tab>
             ))}
         </div>
-        <div className={ingredientsStyle.heightScroll}>
+        <div id="style-2" className={ingredientsStyle.heightScroll}>
           <h1 className="text text_type_main-medium mt-5">Булки</h1>
           <ul className={ingredientsStyle.list}><Section id="bun" ingredients={ingredients.filter(item => item.type === "bun")} /> </ul>
           <h1 className="text text_type_main-medium">Соусы</h1>

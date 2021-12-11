@@ -7,10 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 const Bun = (props) => {
   const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
   const {position} = props;
-  let text;
+  let text = "";
 
   if (ingredientsConstructor.length !== 0) {
-
   const bunElement = ingredientsConstructor.find(item => item.type === "bun");
 
   if (bunElement) {

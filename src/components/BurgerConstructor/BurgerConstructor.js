@@ -28,14 +28,14 @@ const BurgerConstructor = (props) => {
   
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const handleOpenModal = useCallback(() => {
+  const handleOpenModal = () => {
   const aIDs = [...ingredientsConstructor.map(x => x._id)];
   const oID = {
     "ingredients": aIDs
   };
     dispatch(createOrder(oID));
     setVisibleModal(true);
-  }, [dispatch])
+  }
 
   const handleCloseModal = () =>{
     setVisibleModal(false);
@@ -43,9 +43,11 @@ const BurgerConstructor = (props) => {
 
 
   return (
+   
     <div ref={dropTarget} className={burgerStyle.container}>
+     {ingredientsConstructor.length === 0 && <div className={burgerStyle.preliminaryText}>Пока Вы не добавили ни одного ингредиента. Для оформления заказа, выберите ингридиенты из списка</div>}
       {ingredientsConstructor && <Bun position="top"/>}
-      <ul  className={burgerStyle.scroll}>{ingredientsConstructor.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem _id={item._id} customID={item.customID} key={item.customID} index={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
+      <ul id="listConstructor" className={burgerStyle.scroll}>{ingredientsConstructor.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem _id={item._id} customID={item.customID} key={item.customID} index={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
      {ingredientsConstructor &&  <Bun position="bottom"/>}
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>

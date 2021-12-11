@@ -85,7 +85,7 @@ const getIngredients = (state = initialStateIngredients, action) => {
         }
         case GET_INGREDIENTS_FAILED: {
           return { 
-                    state: initialStateIngredients, 
+                    ...initialStateIngredients, 
                     // Запрос выполнился с ошибкой, 
                     // выставляем соответсвующие значения в хранилище
                     ingredientsFailed: true, 
@@ -94,14 +94,14 @@ const getIngredients = (state = initialStateIngredients, action) => {
                 };
         }
         case SET_COUNT_INGREDIENT_CONSTRUCTOR: {
-            let item = state.countIngredients.find(item => item.id === action.item._id);
+            const item = state.countIngredients.find(item => item.id === action.item._id);
             return {
                   ...state,                        
                   countIngredients: [...state.countIngredients, {...item, count: item.count++}] 
             } 
           }
         case DELETE_COUNT_INGREDIENT_CONSTRUCTOR: {
-            let item = state.countIngredients.find(item => item.id === action.item._id);
+            const item = state.countIngredients.find(item => item.id === action.item._id);
             return {
                     ...state,                        
                     countIngredients: [...state.countIngredients, {...item, count: item.count--}] 
@@ -127,9 +127,10 @@ const modifyIngredientsConstructor = (state = initialStateIngredientsConstructor
             } 
           }
           case MOVE_INGREDIENT_CONSTRUCTOR: {
-            const dragIngredient = state.ingredientsConstructor[action.dragIndex];
             const bunElement = state.ingredientsConstructor.find(item => item.type === "bun");
-            let newIngredientsConstructor = [...state.ingredientsConstructor].filter(item => item.type !== "bun");
+            const newIngredientsConstructor = [...state.ingredientsConstructor].filter(item => item.type !== "bun");
+            const dragIngredient = newIngredientsConstructor[action.dragIndex];
+
             newIngredientsConstructor.splice(action.dragIndex, 1);
             newIngredientsConstructor.splice(action.hoverIndex, 0, dragIngredient);
             if (bunElement) {
@@ -191,7 +192,7 @@ const createOrder = (state = initialStateOrder, action) => {
         }
         case CREATE_ORDER_FAILED: {
           return { 
-                    state: initialStateOrder, 
+                    ...initialStateOrder, 
                     // Запрос выполнился с ошибкой, 
                     // выставляем соответсвующие значения в хранилище
                     orderFailed: true, 

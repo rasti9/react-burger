@@ -20,12 +20,14 @@ const Card = (props) => {
    counter = oAddedIngredientInConstructor.count;
  }
 
-const handleOpenModal = useCallback((item) =>{
-   dispatch(setCurrentIngredient(item));
-   setVisibleModal(true);
+const handleOpenModal = useCallback((event, item) =>{
+    if (!event.target.outerHTML.includes('svg')) {
+    dispatch(setCurrentIngredient(item));
+    setVisibleModal(true);
+    }
   }, [dispatch])
 
-  const handleCloseModal = useCallback(() =>{
+  const handleCloseModal = useCallback(() => {
     dispatch(deleteCurrentIngredient());
     setVisibleModal(false);
   }, [dispatch]);
@@ -36,9 +38,10 @@ const handleOpenModal = useCallback((item) =>{
     type: "ingredient",
     item: {_id}
 });
+// {(event) => handleOpenModal(event, item)} 
 
   return (  
-    <div  ref={dragRef} className={cardStyle.card} onClick={() => handleOpenModal(item)} >
+    <div  ref={dragRef} className={cardStyle.card} onClick={(event) => handleOpenModal(event, item)} >
        {counter !== 0 && <div className={cardStyle.counterStyle}>
           <Counter count={counter} size="default" />
         </div> }
@@ -48,7 +51,7 @@ const handleOpenModal = useCallback((item) =>{
             <span className="text text_type_digits-default mr-2">{item.price}</span>
             <CurrencyIcon />
         </div>
-        <span className="text text_type_main-defaul mb-3">{item.name}</span>
+        <span className={cardStyle.fontStyle}>{item.name}</span>
       {visibleModal && (
         <Modal handleClose={handleCloseModal} header={header}>
           <IngredientDetails name={item.name} proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} calories={item.calories} image={item.image_large}/>

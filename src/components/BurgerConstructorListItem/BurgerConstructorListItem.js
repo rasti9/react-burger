@@ -74,8 +74,10 @@ const BurgerConstructorListItem = (props) => {
 
   return (
     <div ref={ref} style={{...style, opacity}} >
+     <li className={burgerListItemStyle.listItem}>
+        <div className={burgerListItemStyle.dragIcon}>
         <DragIcon />
-        <li className="ml-2 mb-3">
+        </div>
         <ConstructorElement
           text={item.name}
           price={item.price}

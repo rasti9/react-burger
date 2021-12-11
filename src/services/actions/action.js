@@ -1,8 +1,6 @@
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
 export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
-export const SET_currentIngredient = "SET_currentIngredient";
-export const DELETE_currentIngredient = "DELETE_currentIngredient";
 export const SET_ORDER_CREATED = "SET_ORDER_CREATED";
 export const SET_ORDER_FAILED = "SET_ORDER_FAILED";
 export const SET_ORDER_SUCCESS = "SET_ORDER_SUCCESS";

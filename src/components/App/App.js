@@ -29,7 +29,7 @@ function App() {
     const copyDraggedElement = {...draggedElement, key: dateStamp, customID : dateStamp};
 
     if (copyDraggedElement.type === "bun") {
-      let oPreviousBun = ingredientsConstructor.find(e => e.type === "bun");
+      const oPreviousBun = ingredientsConstructor.find(e => e.type === "bun");
       if (oPreviousBun && oPreviousBun._id === draggedElement._id) {
           return;
       } else if (oPreviousBun && oPreviousBun._id !== copyDraggedElement._id) {
@@ -54,7 +54,7 @@ function App() {
         <AppHeader />
         <main className={appStyle.mainStyle}>
           <div className={appStyle.columnStyle}>
-            <h1>Соберите бургер</h1>
+          <p className={appStyle.defaultStyle}>Соберите бургер</p>
             <section className={appStyle.rowStyle}>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients/>
