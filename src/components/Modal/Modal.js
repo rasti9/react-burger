@@ -7,7 +7,7 @@ import modalStyle from "./Modal.module.css";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = React.memo((props) => {
+const Modal = (props) => {
     const { header, handleClose, children} = props;
 
     const onKeyDown = (event) => {
@@ -36,7 +36,7 @@ const Modal = React.memo((props) => {
       </>,
       modalRoot
     );
-}) 
+}
 
 Modal.propTypes = {
   header: PropTypes.string,

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "JetBrainsMono-Regular";
+  src: local("JetBrainsMono-Regular"),
+    url("../../fonts/JetBrainsMono-Regular.ttf") format("truetype");
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -9,4 +15,16 @@
   align-items: center;
   flex-direction: row;
   margin-bottom: 10px;
+}
+
+.counterStyle {
+  position: relative;
+  display: flex;
+  align-self: flex-end;
+}
+
+.fontStyle {
+  font-family: "JetBrainsMono-Regular";
+  font-size: 16px;
+  line-height: 24px;
 }

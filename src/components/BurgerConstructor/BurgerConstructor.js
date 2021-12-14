@@ -1,39 +1,65 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useContext} from "react";
 import burgerStyle from "./BurgerConstructor.module.css";
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import TotalSum from "../TotalSum/TotalSum";
 import Bun from "../Bun/Bun";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
+import {URL} from '../../constants/constants.js';
+import { useDrop } from "react-dnd";
+import {createOrder} from '../../services/actions/index.js';
+import PropTypes from 'prop-types';
 
 
 const BurgerConstructor = (props) => {
-  const {data} = props;
-  const [visibleModal, setVisibleModal] = useState(false);
-   
-  const handleOpenModal = useCallback(() =>{
-    setVisibleModal(true);
-  }, [])
+  const {handleDrop} = props;
 
-  const handleCloseModal = useCallback(() =>{
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(itemId) {
+      handleDrop(itemId);
+    }
+});
+
+  const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
+  const dispatch = useDispatch();
+  
+  const [visibleModal, setVisibleModal] = useState(false);
+
+  const handleOpenModal = () => {
+  const aIDs = [...ingredientsConstructor.map(x => x._id)];
+  const oID = {
+    "ingredients": aIDs
+  };
+    dispatch(createOrder(oID));
+    setVisibleModal(true);
+  }
+
+  const handleCloseModal = () =>{
     setVisibleModal(false);
-  }, [])
+  };
+
 
   return (
-    <div>
-      <Bun data={data} position="top"/>
-      <ul className={burgerStyle.scroll}>{data.map((item, index) => <BurgerConstructorListItem key={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
-      <Bun data={data} position="bottom"/>
+   
+    <div ref={dropTarget} className={burgerStyle.container}>
+     {ingredientsConstructor.length === 0 && <div className={burgerStyle.preliminaryText}>Пока Вы не добавили ни одного ингредиента. Для оформления заказа, выберите ингридиенты из списка</div>}
+      {ingredientsConstructor && <Bun position="top"/>}
+      <ul id="listConstructor" className={burgerStyle.scroll}>{ingredientsConstructor.filter(e => e.type !== "bun").map((item, index) => <BurgerConstructorListItem _id={item._id} customID={item.customID} key={item.customID} index={index} name={item.name} price={item.price} image={item.image}/>)}</ul>
+     {ingredientsConstructor &&  <Bun position="bottom"/>}
         <div className={burgerStyle.footer}>
           <div className={burgerStyle.marginRight44}>
-            <TotalSum data={data} />
+            <TotalSum />
             <CurrencyIcon />
           </div>
           <div >
             <Button type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
-            {visibleModal && < Modal handleClose={handleCloseModal}><OrderDetails/></Modal>}
+            {visibleModal && 
+            < Modal handleClose={handleCloseModal}>
+            <OrderDetails />
+            </Modal>}
           </div>
         </div>
     </div>
@@ -41,20 +67,7 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id : PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired
- })).isRequired
+  handleDrop: PropTypes.func.isRequired
 };
-
 
 export default BurgerConstructor;

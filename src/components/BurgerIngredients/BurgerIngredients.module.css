@@ -1,6 +1,6 @@
 .heightScroll {
   height: 800px;
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .list {

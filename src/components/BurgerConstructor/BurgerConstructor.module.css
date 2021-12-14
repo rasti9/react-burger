@@ -1,6 +1,12 @@
+@font-face {
+  font-family: "JetBrainsMono-Bold";
+  src: local("JetBrainsMono-Bold"),
+    url("../../fonts/JetBrainsMono-Bold.ttf") format("truetype");
+}
+
 .scroll {
   overflow-y: scroll;
-  height: 600px;
+  max-height: 600px;
   margin-bottom: 10px;
 }
 
@@ -17,4 +23,19 @@ ul {
 
 .marginRight44 {
   margin-right: 44px;
+}
+
+.container {
+  width: 536px;
+  /* height: 300px; */
+}
+
+.preliminaryText {
+  display: flex;
+  font-family: "JetBrainsMono-Bold";
+  justify-content: center;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  white-space: break-spaces;
 }
