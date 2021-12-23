@@ -1,24 +1,25 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import appStyle from "./App.module.css";
+import AppHeader from "../components/AppHeader/AppHeader";
+import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor";
+import mainStyle from "./main.module.css";
 import { Provider } from 'react-redux';
-import {addConstructorIngredient, setCountIngredient, deleteConstructorIngredient, deleteCountIngredient} from '../../services/actions/index.js';
+import {addConstructorIngredient, setCountIngredient, deleteConstructorIngredient, deleteCountIngredient} from '../services/actions/index.js';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {store} from '../../services/store.js';
+import {store} from '../services/store.js';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-const AppWrapper = () => {
+export function MainPage() {
   return (
     <Provider store={store}> 
-      <App /> 
+      <Main /> 
     </Provider>
   )
 }
 
-function App() {
+function Main() {
   const dispatch = useDispatch();
   const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
   const {ingredients} = useSelector(state => state.ingredients);
@@ -51,11 +52,10 @@ function App() {
 
   return (
       <div>
-        <AppHeader />
-        <main className={appStyle.mainStyle}>
-          <div className={appStyle.columnStyle}>
-          <p className={appStyle.defaultStyle}>Соберите бургер</p>
-            <section className={appStyle.rowStyle}>
+        <main className={mainStyle.mainStyle}>
+          <div className={mainStyle.columnStyle}>
+          <p className={mainStyle.defaultStyle}>Соберите бургер</p>
+            <section className={mainStyle.rowStyle}>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients/>
               <BurgerConstructor handleDrop={handleDrop}/>
@@ -67,4 +67,4 @@ function App() {
     ) 
 }
 
-export default AppWrapper;
+// export default MainPage;

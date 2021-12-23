@@ -1,7 +1,7 @@
 @font-face {
   font-family: "JetBrainsMono-Bold";
   src: local("JetBrainsMono-Bold"),
-    url("../../fonts/JetBrainsMono-Bold.ttf") format("truetype");
+    url("../fonts/JetBrainsMono-Bold.ttf") format("truetype");
 }
 
 .mainStyle {

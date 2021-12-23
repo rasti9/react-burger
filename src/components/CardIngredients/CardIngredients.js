@@ -3,6 +3,7 @@ import {CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-co
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { useLocation, Link } from 'react-router-dom';
 import Modal from "../Modal/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/index.js';
@@ -10,6 +11,7 @@ import { useDrag } from "react-dnd";
 
 const Card = (props) => {
  const {_id, item} = props;
+ const location = useLocation();
  const [visibleModal, setVisibleModal] = useState(false);
  const dispatch = useDispatch();
  let counter = 0;
@@ -41,6 +43,14 @@ const handleOpenModal = useCallback((event, item) =>{
 // {(event) => handleOpenModal(event, item)} 
 
   return (  
+    <Link
+      key={_id}
+      to={{
+        pathname: `/ingredients/${_id}`,
+        state: { background: location },
+      }}
+      className={cardStyle.link}
+    >
     <div  ref={dragRef} className={cardStyle.card} onClick={(event) => handleOpenModal(event, item)} >
        {counter !== 0 && <div className={cardStyle.counterStyle}>
           <Counter count={counter} size="default" />
@@ -58,6 +68,7 @@ const handleOpenModal = useCallback((event, item) =>{
         </Modal>
       )}
       </div>
+      </Link>
   )
 }
 

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "JetBrainsMono-Regular";
+  src: local("JetBrainsMono-Regular"),
+    url("../../fonts/JetBrainsMono-Regular.ttf") format("truetype");
+}
+
 .header {
   display: flex;
   justify-content: center;
@@ -25,4 +31,18 @@
 .logo {
   composes: styleIcon;
   flex-basis: 33%;
+}
+
+.linkStyle {
+  font-family: "JetBrainsMono-Regular";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: none;
+  color: #8585ad;
+  margin-left: 11px;
+}
+
+.activeLink {
+  color: white;
 }

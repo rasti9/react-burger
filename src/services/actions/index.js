@@ -12,12 +12,15 @@ import {
     UPDATE_CURRENT_TAB,
     CREATE_ORDER,
     CREATE_ORDER_SUCCESS,
-    CREATE_ORDER_FAILED
+    CREATE_ORDER_FAILED,
+    RESET_PASSWORD,
+    LOGIN
 } from './action.js';
 import {URL} from '../../constants/constants.js';
 
 const URL_INGREDIENTS = `${URL}/ingredients`;
 const URL_CREATE_ORDER = `${URL}/orders`;
+const URL_RESET_PASSWORD = `${URL}/password-reset`;
 
 
 export const getIngredients = () => {
@@ -150,3 +153,5 @@ export const createOrder = (oID) => {
       })
 }
 } 
+
+

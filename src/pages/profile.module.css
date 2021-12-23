@@ -1,0 +1,54 @@
+@font-face {
+  font-family: "JetBrainsMono-Regular";
+  src: local("JetBrainsMono-Regular"),
+    url("../fonts/JetBrainsMono-Regular.ttf") format("truetype");
+}
+
+.contentStyle {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.linkBlockStyle {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 60px;
+  width: 320px;
+}
+
+.linkStyle {
+  font-family: "JetBrainsMono-Regular";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  text-decoration: none;
+  color: #8585ad;
+}
+
+.activeLink {
+  color: white;
+}
+
+.marginTop {
+  margin-top: 24px;
+}
+
+.marginTop80 {
+  margin-top: 80px;
+}
+
+.rowStyle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.buttonsStyle {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
