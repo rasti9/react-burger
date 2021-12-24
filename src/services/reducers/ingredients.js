@@ -9,7 +9,9 @@ import {
     DELETE_INGREDIENT_CONSTRUCTOR,
     DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
     MOVE_INGREDIENT_CONSTRUCTOR,
-    UPDATE_CURRENT_TAB
+    UPDATE_CURRENT_TAB,
+    SET_MODAL_OPEN,
+    SET_MODAL_CLOSE
 } from '../actions/action.js';
 
 const initialStateIngredients =  {
@@ -24,7 +26,8 @@ const initialStateIngredientsConstructor = {
 }
 
 const initialStateCurrentIngredient = {
-    currentIngredient: {}
+    currentIngredient: {},
+    isModalOpen : true
 }
 
 const initialStateTabs = {
@@ -152,6 +155,20 @@ export const modifyCurrentIngredient = (state = initialStateCurrentIngredient, a
                   currentIngredient: {}
             } 
           }
+          case SET_MODAL_OPEN: {
+            return {
+                  ...state,
+                  // Запрос начал выполняться
+                  isModalOpen: true
+            } 
+          }  
+          case SET_MODAL_CLOSE: {
+            return {
+                  ...state,
+                  // Запрос начал выполняться
+                  isModalOpen: false
+            } 
+          } 
         default: {
             return state
         }

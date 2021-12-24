@@ -7,6 +7,7 @@ import { useLocation, Link, useHistory, Redirect } from 'react-router-dom';
 import Modal from "../Modal/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/ingredients.js';
+import {setModalOpen} from "../../services/actions/ingredients.js";
 import { useDrag } from "react-dnd";
 
 const Card = (props) => {
@@ -25,11 +26,9 @@ const Card = (props) => {
  }
 
 const handleOpenModal = useCallback((event, item) =>{
-   if (!event.target.outerHTML.includes('svg') && !event.target.outerHTML.includes('ModalOverlay') && document.getElementById("modalID") === null) {
     dispatch(setCurrentIngredient(item));
     localStorage.setItem("currentIngredient", JSON.stringify({item}));
-    setVisibleModal(true)
-   }
+    dispatch(setModalOpen())
   }, [])
 
   const handleCloseModal = useCallback(() => {
@@ -65,11 +64,11 @@ const handleOpenModal = useCallback((event, item) =>{
             <CurrencyIcon />
         </div>
         <span className={cardStyle.fontStyle}>{item.name}</span>
-      {visibleModal && (
+      {/* {visibleModal && (
         <Modal handleClose={handleCloseModal} header={header}>
           <IngredientDetails name={item.name} proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} calories={item.calories} image={item.image_large}/>
         </Modal>
-      )}
+      )} */}
       </div>
       </Link>
   )

@@ -6,16 +6,17 @@ import AppHeader from "../AppHeader/AppHeader";
 import appStyle from "./App.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
-import { getIngredients } from '../../services/actions/ingredients.js';
-import { useDispatch } from 'react-redux';
+import { getIngredients, setModalClose } from '../../services/actions/ingredients.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function App() {
   const ModalSwitch = () => {
     const location = useLocation();
     const history = useHistory();
     let background = location.state && location.state.background;
-    const [visibleModal, setVisibleModal] = useState(true);
     const dispatch = useDispatch();
+
+    const { isModalOpen } = useSelector(state => state.currentIngredient);
 
     useEffect(()=> {
       // Отправляем экшен-функцию
@@ -25,7 +26,7 @@ export default function App() {
 
     const handleModalClose = () => {
       history.goBack();
-      setVisibleModal(false);
+      dispatch(setModalClose());
     };
 
   return ( 
@@ -65,7 +66,7 @@ export default function App() {
           <Route
             path='/ingredients/:ingredientId'
             children={
-              visibleModal && <Modal header="Детали ингредиента" handleClose={handleModalClose}>
+              isModalOpen && <Modal header="Детали ингредиента" handleClose={handleModalClose}>
                 <IngredientDetails />
               </Modal>
             }

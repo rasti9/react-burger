@@ -9,7 +9,9 @@ import {
     DELETE_INGREDIENT_CONSTRUCTOR,
     DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
     MOVE_INGREDIENT_CONSTRUCTOR,
-    UPDATE_CURRENT_TAB
+    UPDATE_CURRENT_TAB,
+    SET_MODAL_OPEN,
+    SET_MODAL_CLOSE
 } from './action.js';
 import {URL} from '../../constants/constants.js';
 
@@ -110,6 +112,22 @@ export const updateCurrentTab = (id, ratio) => {
       type: UPDATE_CURRENT_TAB,
       id: id,
       ratio: ratio
+    })
+  }
+}
+
+export const setModalOpen = () => {
+  return function(dispatch) {
+    dispatch({
+      type: SET_MODAL_OPEN
+    })
+  }
+}
+
+export const setModalClose = () => {
+  return function(dispatch) {
+    dispatch({
+      type: SET_MODAL_CLOSE
     })
   }
 }
