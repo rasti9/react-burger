@@ -11,8 +11,7 @@ function AppHeader() {
         <div className={headerStyle.header}  >
             <div className={headerStyle.styleIconBurger} >
                 <BurgerIcon type="primary"  />
-                <NavLink to='/' exact="true" className={headerStyle.linkStyle} activeClassName={headerStyle.activeLink} >Конструктор</NavLink>
-                {/* <span className="text text_type_main-default ml-2">Конструктор</span> */}
+                <NavLink to='/' exact className={headerStyle.linkStyle} activeClassName={headerStyle.activeLink} >Конструктор</NavLink>
             </div>
             <div className={headerStyle.styleIcon15}>
                 <ListIcon  type="secondary" />
@@ -23,7 +22,6 @@ function AppHeader() {
             </div>
             <div className={headerStyle.styleIcon} >
                 <ProfileIcon type="secondary" />
-                {/* <span className="text text_type_main-default text_color_inactive ml-2" >Личный кабинет</span> */}
                 <NavLink to='/profile' className={headerStyle.linkStyle} activeClassName={headerStyle.activeLink} >Личный кабинет</NavLink>
             </div>
         </div>   

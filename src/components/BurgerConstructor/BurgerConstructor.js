@@ -10,7 +10,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 import {URL} from '../../constants/constants.js';
 import { useDrop } from "react-dnd";
-import {createOrder} from '../../services/actions/index.js';
+import {createOrder} from '../../services/actions/order.js';
 import PropTypes from 'prop-types';
 
 

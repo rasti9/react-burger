@@ -21,8 +21,9 @@ export function ResetPasswordPage() {
 
 export function ResetPassword() {
     const history = useHistory();
-    const passwordRef = useRef(null);
-    const codeRef = useRef(null);
+    const [password, setPassword] = React.useState('');
+    const [code, setCode] = React.useState('');
+
     const {isAuth, isPasswordReset} = useSelector(state => state.userInfo);
     let location = useLocation();
     const dispatch = useDispatch();
@@ -38,6 +39,13 @@ export function ResetPassword() {
           }
       }, [isAuth]);
 
+      const onChangePassword= (e) => {
+        setPassword(e.target.value);
+      }
+
+      const onChangeCode = (e) => {
+        setCode(e.target.value);
+      }
 
       if (location.pathname === '/reset-password' && isPasswordReset === false) {
         return  <Redirect to={{pathname: '/login'}} />;
@@ -45,10 +53,6 @@ export function ResetPassword() {
 
 
     const handleResetPassword = () => {
-        const password = passwordRef.current.value;
-        const code = codeRef.current.value; 
-
-        if (password.length !== 0 && code.length !== 0) {
         fetch(URL_RESET, {
           method: 'POST', 
           body: JSON.stringify({password: password, token: code}),
@@ -63,18 +67,17 @@ export function ResetPassword() {
        .catch( err => {
             console.log(err)
           })
-      }
     }
 
     return (
-    <div>
+    <form onSubmit={handleResetPassword}>
         <div className={loginStyle.loginStyle}>
             <p className="text text_type_main-medium">Восстановление пароля</p>
             <div className={loginStyle.marginTop}>
-                <Input ref={passwordRef} placeholder="Введите новый пароль" type="password"></Input>
+                <Input value={password} placeholder="Введите новый пароль" type="password" onChange={onChangePassword} ></Input>
             </div>
             <div className={loginStyle.marginTop}>
-                <Input ref= {codeRef} placeholder="Введите код из письма" type="text"></Input>
+                <Input value={code} placeholder="Введите код из письма" type="text" onChange={onChangeCode} ></Input>
             </div>
             <div className={loginStyle.marginTop}>
                 <Button type="primary" size="large" onClick={handleResetPassword}>Сохранить</Button>
@@ -84,6 +87,6 @@ export function ResetPassword() {
                 </p>
             </div>
         </div>
-    </div>
+    </form>
     )
   }

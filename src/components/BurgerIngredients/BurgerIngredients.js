@@ -4,7 +4,6 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientsStyle from "./BurgerIngredients.module.css";
 import Card from "../CardIngredients/CardIngredients";
 //import { BurgerContext } from '../../services/burgerContext.js';
-import { getIngredients } from '../../services/actions/index.js';
 import { useInView } from 'react-intersection-observer';
 import Section from "../Section/Section.js";
 
@@ -15,11 +14,6 @@ const BurgerIngredients = () => {
 
     // Получаем метод dispatch
     const dispatch = useDispatch();
-
-    useEffect(()=> {
-      // Отправляем экшен-функцию
-      dispatch(getIngredients())
-    }, [dispatch])
 
     const currentTab = tabs.reduce((current, tab) => {
       return current.ratio < tab.ratio ? tab : current

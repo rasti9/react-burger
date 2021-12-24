@@ -20,11 +20,15 @@ export function ForgotPasswordPage() {
 
 
 export function ForgotPassword() {
-    const input = useRef(null);
+    const [email, setEmail] = React.useState('');
     const history = useHistory();
     const {isAuth, isPasswordReset} = useSelector(state => state.userInfo);
     let location = useLocation();
     const dispatch = useDispatch();
+
+    const onChangeEmail= (e) => {
+      setEmail(e.target.value);
+  }
 
     useEffect(()=> {
       dispatch(getUserInfo(false));
@@ -44,42 +48,26 @@ export function ForgotPassword() {
   }, [isPasswordReset]);
 
 
-    const handleResetPassword = () => {
-      const email = input.current.value;   
-      if (email.length !== 0) {
+    const handleResetPassword = (e) => {
+      e.preventDefault(true);
       dispatch(resetPassword(email))
-    //   fetch(URL_RESET_PASSWORD, {
-    //     method: 'POST', 
-    //     body: JSON.stringify({email: email}),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //  })
-    //  .then(res => res.ok ? res : Promise.reject(res))
-    //  .then(data => {
-    //     history.replace("/reset-password");
-    //   })    
-    //  .catch( err => {
-    //       console.log(err)
-    //     })
     }
-}
 
     return (
-    <div>
+      <form onSubmit={handleResetPassword}>
         <div className={loginStyle.loginStyle}>
             <p className="text text_type_main-medium">Восстановление пароля</p>
             <div className={loginStyle.marginTop}>
-                <Input ref={input} type="email" placeholder="Укажите e-mail" ></Input>
+                <Input value={email} type="email" placeholder="Укажите e-mail" onChange={onChangeEmail} ></Input>
             </div>
             <div className={loginStyle.marginTop}>
-                <Button type="primary" size="large" onClick={handleResetPassword}>Восстановить</Button>
+                <Button type="primary" size="large">Восстановить</Button>
             </div>
             <div className={loginStyle.marginTop80}>
                 <p className="text text_type_main-default text_color_inactive">Вспомнили пароль? <Link to='/login'> Войти</Link>
                 </p>
             </div>
         </div>
-    </div>
+      </form>
     )
   }

@@ -9,19 +9,11 @@ import {
     DELETE_INGREDIENT_CONSTRUCTOR,
     DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
     MOVE_INGREDIENT_CONSTRUCTOR,
-    UPDATE_CURRENT_TAB,
-    CREATE_ORDER,
-    CREATE_ORDER_SUCCESS,
-    CREATE_ORDER_FAILED,
-    RESET_PASSWORD,
-    LOGIN
+    UPDATE_CURRENT_TAB
 } from './action.js';
 import {URL} from '../../constants/constants.js';
 
 const URL_INGREDIENTS = `${URL}/ingredients`;
-const URL_CREATE_ORDER = `${URL}/orders`;
-const URL_RESET_PASSWORD = `${URL}/password-reset`;
-
 
 export const getIngredients = () => {
     return function(dispatch) {
@@ -103,11 +95,11 @@ export const moveConstructorIngredient = (dragIndex, hoverIndex) => {
   }
 }
 
-export const deleteCountIngredient = (item) => {
+export const deleteCountIngredient = (itemID) => {
   return function(dispatch) {
     dispatch({
       type: DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
-      item: item
+      id: itemID
     })
   }
 }
@@ -122,36 +114,6 @@ export const updateCurrentTab = (id, ratio) => {
   }
 }
 
-export const createOrder = (oID) => {
-  return function(dispatch) {
-  dispatch({
-    type: CREATE_ORDER
-  })
-   fetch(URL_CREATE_ORDER, {
-      method: 'POST', 
-      body: JSON.stringify(oID),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-   }).then(response => {
-    if (response && response.ok) {
-        return response.json();
-    } else {
-      dispatch({
-        type: CREATE_ORDER_FAILED
-      })
-    }
-  }).then(res => {
-      dispatch({
-        type: CREATE_ORDER_SUCCESS,
-        order: res.order
-      })
-  }).catch( err => {
-        dispatch({
-            type: CREATE_ORDER_FAILED
-        })
-      })
-}
-} 
+
 
 

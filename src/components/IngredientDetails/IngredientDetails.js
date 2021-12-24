@@ -1,9 +1,19 @@
 import React from "react";
 import ingredientDetailsStyle from "./IngredientDetails.module.css";
 import PropTypes from 'prop-types';
+import {useDispatch, Provider, useSelector } from 'react-redux';
+import {store} from '../../services/store.js';
  
-const IngredientDetails = React.memo((props) => {
-    const {name, proteins, fat, carbohydrates, calories, image} = props;
+export default function IngredientDetails() {
+    return (
+      <Provider store={store}> 
+        <IngredientDetailsPage  /> 
+      </Provider>
+    )
+  }
+
+const IngredientDetailsPage = () => {
+    const {name, proteins, fat, carbohydrates, calories, image} = JSON.parse(localStorage.getItem("currentIngredient")).item;
      return (
         <div className={ingredientDetailsStyle.centerColumnItems}>
             <img src={image} alt={name}/>
@@ -28,15 +38,4 @@ const IngredientDetails = React.memo((props) => {
             </div>
         </div>
     )
-  })
-
-IngredientDetails.propTypes = {
-    name: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired
-  };
-
-export default IngredientDetails;
+  }

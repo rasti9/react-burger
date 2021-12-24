@@ -3,10 +3,10 @@ import {CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-co
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useHistory } from 'react-router-dom';
 import Modal from "../Modal/Modal";
 import { useSelector, useDispatch } from 'react-redux';
-import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/index.js';
+import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/ingredients.js';
 import { useDrag } from "react-dnd";
 
 const Card = (props) => {
@@ -14,6 +14,8 @@ const Card = (props) => {
  const location = useLocation();
  const [visibleModal, setVisibleModal] = useState(false);
  const dispatch = useDispatch();
+ const history = useHistory();
+
  let counter = 0;
  const { countIngredients } = useSelector(state => state.ingredients);
 
@@ -23,24 +25,25 @@ const Card = (props) => {
  }
 
 const handleOpenModal = useCallback((event, item) =>{
-    if (!event.target.outerHTML.includes('svg')) {
+   if (!event.target.outerHTML.includes('svg') && !event.target.outerHTML.includes('ModalOverlay')) {
     dispatch(setCurrentIngredient(item));
+    localStorage.setItem("currentIngredient", JSON.stringify({item}));
     setVisibleModal(true);
-    }
-  }, [dispatch])
+   }
+  }, [])
 
   const handleCloseModal = useCallback(() => {
     dispatch(deleteCurrentIngredient());
     setVisibleModal(false);
-  }, [dispatch]);
+    history.goBack();
+  }, []);
 
   const header = "Детали ингредиента";
 
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: {_id}
-});
-// {(event) => handleOpenModal(event, item)} 
+  });
 
   return (  
     <Link

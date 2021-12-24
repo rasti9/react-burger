@@ -20,11 +20,12 @@ export function RegisterPage() {
 
 export function Register() {
     const history = useHistory();
-    const name = useRef(null);
-    const email = useRef(null);
     const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('');
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+
     const {isAuth} = useSelector(state => state.userInfo);
     let location = useLocation();
 
@@ -43,50 +44,52 @@ export function Register() {
     const onChangePassword = (e) => {
         setPassword(e.target.value);
     }
+    const onChangeName = (e) => {
+        setName(e.target.value);
+    }
+    const onChangeEmail = (e) => {
+        setEmail(e.target.value);
+    }
 
-    const handleRegister = () => {
-        let nameValue = name.current.value;   
-        let emailValue = email.current.value;     
-
-        if (nameValue.length !== 0 && emailValue.length !== 0 && password.length !== 0) {
-            fetch(URL_REGISTER_USER, {
-              method: 'POST', 
-              body: JSON.stringify({name:nameValue, email: emailValue, password: password}),
-              headers: {
-                'Content-Type': 'application/json'
-              }
-           })
-           .then(res => res.ok ? res : Promise.reject(res))
-           .then(data => {
-              history.replace("/");
-            })    
-           .catch( err => {
-                console.log(err)
-              })
-          }
+    const handleRegister = (e) => {
+        e.preventDefault(true);   
+        fetch(URL_REGISTER_USER, {
+            method: 'POST', 
+            body: JSON.stringify({name:name, email: email, password: password}),
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then(data => {
+            history.replace("/");
+        })    
+        .catch( err => {
+            console.log(err)
+            })
     }
 
     return (
-    <div>
+    <form onSubmit={handleRegister}>
         <div className={loginStyle.loginStyle}>
             <p className="text text_type_main-medium">Регистрация</p>
             <div className={loginStyle.marginTop}>
-                <Input type="text" placeholder="Имя" ref={name} ></Input>
+                <Input value={name} type="text" placeholder="Имя" onChange={onChangeName}></Input>
             </div>
             <div className={loginStyle.marginTop}>
-                <Input type="email" placeholder="E-mail" ref={email} ></Input>
+                <Input value={email} type="email" placeholder="E-mail" onChange={onChangeEmail}></Input>
             </div>
             <div className={loginStyle.marginTop}>
                 <PasswordInput value={password} onChange={onChangePassword}></PasswordInput>
             </div>
             <div className={loginStyle.marginTop}>
-                <Button type="primary" size="large" onClick={handleRegister}>Зарегистрироваться</Button>
+                <Button type="primary" size="large">Зарегистрироваться</Button>
             </div>
             <div className={loginStyle.marginTop80}>
                 <p className="text text_type_main-default text_color_inactive">Уже зарегистрированы? <Link to='/login'> Войти</Link>
                 </p>
             </div>
         </div>
-    </div>
+    </form>
     )
   }

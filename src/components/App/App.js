@@ -1,22 +1,39 @@
-import React, {useState,useCallback } from "react";
+import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFoundPage }  from './pages';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import AppHeader from "./components/AppHeader/AppHeader";
-import IngredientDetails from "./components/IngredientDetails/IngredientDetails";
-import Modal from "./components/Modal/Modal";
+import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFoundPage }  from '../../pages';
+import { ProtectedRoute } from '../ProtectedRoute';
+import AppHeader from "../AppHeader/AppHeader";
+import appStyle from "./App.module.css";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import Modal from "../Modal/Modal";
+import { getIngredients } from '../../services/actions/ingredients.js';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import {store} from '../../services/store.js';
 
+export default function AppWrapper() {
+  return (
+    <Provider store={store}> 
+      <App /> 
+    </Provider>
+  )
+}
 
-export default function App() {
+function App() {
   const ModalSwitch = () => {
     const location = useLocation();
     const history = useHistory();
     let background = location.state && location.state.background;
-    const [visibleModal, setVisibleModal] = useState(false);
+    const [visibleModal, setVisibleModal] = useState(true);
+    const dispatch = useDispatch();
+
+    useEffect(()=> {
+      // Отправляем экшен-функцию
+      dispatch(getIngredients())
+    }, [dispatch])
+
 
     const handleModalClose = () => {
       setVisibleModal(false);
-      history.goBack();
     };
 
   return ( 
@@ -42,6 +59,9 @@ export default function App() {
           <ProfilePage />
         </ProtectedRoute>
         <Route path='/ingredients/:ingredientId' exact>
+            <div className={appStyle.headerText}>
+              <p className="text text_type_main-large">Детали ингредиента</p>
+            </div>
             <IngredientDetails />
           </Route>
         <Route>
@@ -53,7 +73,7 @@ export default function App() {
           <Route
             path='/ingredients/:ingredientId'
             children={
-              visibleModal && <Modal onClose={handleModalClose}>
+              visibleModal && <Modal header="Детали ингредиента" handleClose={handleModalClose}>
                 <IngredientDetails />
               </Modal>
             }
