@@ -7,6 +7,7 @@ import loginStyle from "./login.module.css";
 import {URL} from '../constants/constants.js';
 import {store} from '../services/store.js';
 import { getUserInfo} from '../services/actions/auth.js';
+import {checkResponse} from '../utils/auth.js';
 
 const URL_RESET = `${URL}/password-reset/reset`;
 
@@ -60,7 +61,7 @@ export function ResetPassword() {
             'Content-Type': 'application/json'
           }
        })
-       .then(res => res.ok ? res : Promise.reject(res))
+       .then(checkResponse)
        .then(data => {
           history.replace("/login");
         })    

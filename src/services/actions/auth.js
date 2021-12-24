@@ -12,6 +12,7 @@ import {
 
 import {URL} from '../../constants/constants.js';
 import {getCookie, setCookie} from "../../utils/auth.js";
+import {checkResponse} from '../../utils/auth.js';
 
 const URL_LOGIN= `${URL}/auth/login`;
 const URL_LOGOUT= `${URL}/auth/logout`;
@@ -54,7 +55,7 @@ export const login = (email, password) => {
         'Content-Type': 'application/json'
       }
    })
-   .then(res => res.ok ? res : Promise.reject(res))
+   .then(checkResponse)
    .then(res => {
       setCookie('accessToken', res.accessToken);
       afterRefreshFunc();
@@ -137,7 +138,7 @@ export const login = (email, password) => {
         'Content-Type': 'application/json'
       }
    })
-   .then(res => res.ok ? res : Promise.reject(res))
+   .then(checkResponse)
    .then(data => {
       dispatch({
         type: RESET_PASSWORD_SUCCESS
@@ -159,7 +160,7 @@ export const login = (email, password) => {
           body: JSON.stringify({token: refreshToken}),
         }
      })
-     .then(res => res.ok ? res : Promise.reject(res))
+     .then(checkResponse)
      .then(data => {
        dispatch({
           type: LOGOUT_SUCCESS

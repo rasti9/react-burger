@@ -7,12 +7,12 @@ import { getUserInfo} from '../services/actions/auth.js';
 export function ProtectedRoute({ children, ...rest }) {
     return (
       <Provider store={store}> 
-        <ProtectedRoutePage children={children} rest={rest} /> 
+        <ProtectedRout children={children} rest={rest} /> 
       </Provider>
     )
   }
 
-function ProtectedRoutePage(props) {
+function ProtectedRout(props) {
     const { children, rest } = props;
     const dispatch = useDispatch();
     const {isAuth, isPasswordReset} = useSelector(state => state.userInfo);

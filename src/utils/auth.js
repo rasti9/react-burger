@@ -27,3 +27,7 @@ export function setCookie(name, value, props) {
     );
     return matches ? decodeURIComponent(matches[1]) : undefined;
   } 
+
+  export const checkResponse = (res) => {
+    return res.ok? res.json() : res.json().then((err) => Promise.reject(err));
+  }
