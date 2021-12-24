@@ -1,25 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import AppHeader from "../components/AppHeader/AppHeader";
 import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor";
 import mainStyle from "./main.module.css";
-import { Provider } from 'react-redux';
 import {addConstructorIngredient, setCountIngredient, deleteConstructorIngredient, deleteCountIngredient} from '../services/actions/ingredients.js';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {store} from '../services/store.js';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 export function MainPage() {
-  return (
-    <Provider store={store}> 
-      <Main /> 
-    </Provider>
-  )
-}
-
-function Main() {
   const dispatch = useDispatch();
   const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
   const {ingredients} = useSelector(state => state.ingredients);

@@ -25,7 +25,7 @@ const Modal = (props) => {
 
      return ReactDOM.createPortal(
        <>
-      <div className={modalStyle.modal}>
+      <div id="modalID" className={modalStyle.modal}>
           <div className={modalStyle.header}>
              <p className="text text_type_main-large">{header}</p>
             <CloseIcon onClick={handleClose}/>

@@ -1,18 +1,7 @@
 import React from "react";
 import ingredientDetailsStyle from "./IngredientDetails.module.css";
-import PropTypes from 'prop-types';
-import {useDispatch, Provider, useSelector } from 'react-redux';
-import {store} from '../../services/store.js';
- 
-export default function IngredientDetails() {
-    return (
-      <Provider store={store}> 
-        <IngredientDetailsPage  /> 
-      </Provider>
-    )
-  }
 
-const IngredientDetailsPage = () => {
+export default function IngredientDetails() {
     const {name, proteins, fat, carbohydrates, calories, image} = JSON.parse(localStorage.getItem("currentIngredient")).item;
      return (
         <div className={ingredientDetailsStyle.centerColumnItems}>

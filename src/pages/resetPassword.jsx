@@ -1,26 +1,15 @@
-import React, {useRef, useEffect} from "react";
-import {useDispatch, Provider, useSelector } from 'react-redux';
-import AppHeader from "../components/AppHeader/AppHeader";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import loginStyle from "./login.module.css";
 import {URL} from '../constants/constants.js';
-import {store} from '../services/store.js';
 import { getUserInfo} from '../services/actions/auth.js';
 import {checkResponse} from '../utils/auth.js';
 
 const URL_RESET = `${URL}/password-reset/reset`;
 
 export function ResetPasswordPage() {
-    return (
-      <Provider store={store}> 
-        <ResetPassword /> 
-      </Provider>
-    )
-  }
-  
-
-export function ResetPassword() {
     const history = useHistory();
     const [password, setPassword] = React.useState('');
     const [code, setCode] = React.useState('');
@@ -81,7 +70,7 @@ export function ResetPassword() {
                 <Input value={code} placeholder="Введите код из письма" type="text" onChange={onChangeCode} ></Input>
             </div>
             <div className={loginStyle.marginTop}>
-                <Button type="primary" size="large" onClick={handleResetPassword}>Сохранить</Button>
+                <Button type="primary" size="large">Сохранить</Button>
             </div>
             <div className={loginStyle.marginTop80}>
                 <p className="text text_type_main-default text_color_inactive">Вспомнили пароль? <Link to='/login'> Войти</Link>

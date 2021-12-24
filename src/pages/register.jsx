@@ -1,25 +1,15 @@
-import React, {useRef, useEffect} from "react";
-import {useDispatch, Provider, useSelector } from 'react-redux';
-import AppHeader from "../components/AppHeader/AppHeader";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation} from 'react-router-dom';
 import { Input, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import loginStyle from "./login.module.css";
 import {URL} from '../constants/constants.js';
-import {store} from '../services/store.js';
 import { getUserInfo} from '../services/actions/auth.js';
 import {checkResponse} from '../utils/auth.js';
 
 const URL_REGISTER_USER = `${URL}/auth/register`;
 
 export function RegisterPage() {
-    return (
-      <Provider store={store}> 
-        <Register /> 
-      </Provider>
-    )
-  }
-
-export function Register() {
     const history = useHistory();
     const dispatch = useDispatch();
 

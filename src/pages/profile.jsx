@@ -1,21 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
-import { useSelector, useDispatch, Provider } from 'react-redux';
-import AppHeader from "../components/AppHeader/AppHeader";
-import { NavLink, Link, useHistory } from 'react-router-dom';
-import { Input, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useEffect} from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink, useHistory } from 'react-router-dom';
+import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import profileStyle from "./profile.module.css";
-import { getUserInfo, saveUserInfo, logOut} from '../services/actions/auth.js';
-import {store} from '../services/store.js';
+import { saveUserInfo, logOut} from '../services/actions/auth.js';
+
 
 export function ProfilePage() {
-    return (
-      <Provider store={store}> 
-        <Profile /> 
-      </Provider>
-    )
-  }
-
-function Profile() {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -25,6 +16,7 @@ function Profile() {
     const {isLoggedOut} = useSelector(state => state.userInfo);
     const [userName, setUserName] = React.useState('');
     const [userEmail, setUserEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
     
     useEffect(() => {
         setUserName(user.name); 
@@ -48,7 +40,12 @@ function Profile() {
         setUserEmail(e.target.value)
     }
 
-    const handleSave = () => {
+    const handleChangePassword = e => {
+        setPassword(e.target.value)
+    }
+
+    const handleSave = (e) => {
+        e.preventDefault(true);
         dispatch(saveUserInfo(userNameRef.current.value, emailRef.current.value, false));
     }
 
@@ -73,14 +70,14 @@ function Profile() {
                     <NavLink to='/profile/orders' className={profileStyle.linkStyle}>История заказов</NavLink>
                 </div>
                 <div className={profileStyle.marginTop}>
-                    <Link onClick={handleSignOut} className={profileStyle.linkStyle}>Выход</Link>
+                    <button onClick={handleSignOut} className={profileStyle.buttonStyle}>Выход</button>
                 </div>
                 <div className={profileStyle.marginTop80}>
                 <p className="text text_type_main-default text_color_inactive">В этом разделе вы можете изменить свои персональные данные
                 </p>
             </div>
             </div>
-            <div className={profileStyle.contentStyle}>
+            <form onSubmit={handleSave} className={profileStyle.contentStyle}>
                 <div className={profileStyle.marginTop}>
                     <Input type="text" placeholder="Имя" ref={userNameRef} value={userName} onChange={handleChangeInput} icon={'EditIcon'} ></Input>
                 </div>
@@ -88,17 +85,17 @@ function Profile() {
                     <Input type="email" placeholder="Логин" ref={emailRef} value={userEmail} onChange={handleChangeEmail}  icon={'EditIcon'}></Input>
                 </div>
                 <div className={profileStyle.marginTop}>
-                    <Input type="password" placeholder="Пароль" icon={'EditIcon'}></Input>
+                    <Input type="password" placeholder="Пароль" value={password} onChange={handleChangePassword}  icon={'EditIcon'}></Input>
                 </div>
                 <div className={profileStyle.buttonsStyle}>
                 <Button type="secondary" size="medium" onClick={handleCancel} >
                  Отмена
                 </Button>
-                <Button type="primary" size="medium" onClick={handleSave}>
+                <Button type="primary" size="medium" >
                  Сохранить
                 </Button>
                 </div>
-            </div> 
+            </form> 
         </div>
     </div>
         

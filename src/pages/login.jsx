@@ -1,22 +1,13 @@
 import React, {useEffect} from "react";
-import {useDispatch, Provider, useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Input, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import loginStyle from "./login.module.css";
 import {login} from '../services/actions/auth.js';
-import {store} from '../services/store.js';
 import { getUserInfo} from '../services/actions/auth.js';
 
-export function LoginPage() {
-    return (
-      <Provider store={store}> 
-        <Login /> 
-      </Provider>
-    )
-  }
-  
 
-function Login() {
+export function LoginPage() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [password, setPassword] = React.useState('');

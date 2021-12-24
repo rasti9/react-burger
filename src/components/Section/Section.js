@@ -7,7 +7,6 @@ import {updateCurrentTab} from '../../services/actions/ingredients.js';
 import PropTypes from 'prop-types';
 
 const Section = (props) => {
-  debugger;
 const { id, ingredients} = props; // Получаем данные секции
 const { ref, inView, entry } = useInView({
    // Массив процентов видимиости, при прохождении которых будет обновляться значение entry

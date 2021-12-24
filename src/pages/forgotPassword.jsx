@@ -1,25 +1,12 @@
-import React, {useRef, useEffect} from "react";
-import {useDispatch, Provider, useSelector } from 'react-redux';
-import AppHeader from "../components/AppHeader/AppHeader";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import loginStyle from "./login.module.css";
-import {URL} from '../constants/constants.js';
-import {store} from '../services/store.js';
 import { getUserInfo, resetPassword} from '../services/actions/auth.js';
 
-const URL_RESET_PASSWORD = `${URL}/password-reset`;
 
 export function ForgotPasswordPage() {
-  return (
-    <Provider store={store}> 
-      <ForgotPassword /> 
-    </Provider>
-  )
-}
-
-
-export function ForgotPassword() {
     const [email, setEmail] = React.useState('');
     const history = useHistory();
     const {isAuth, isPasswordReset} = useSelector(state => state.userInfo);

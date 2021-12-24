@@ -7,18 +7,9 @@ import appStyle from "./App.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import { getIngredients } from '../../services/actions/ingredients.js';
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import {store} from '../../services/store.js';
+import { useDispatch } from 'react-redux';
 
-export default function AppWrapper() {
-  return (
-    <Provider store={store}> 
-      <App /> 
-    </Provider>
-  )
-}
-
-function App() {
+export default function App() {
   const ModalSwitch = () => {
     const location = useLocation();
     const history = useHistory();
@@ -33,6 +24,7 @@ function App() {
 
 
     const handleModalClose = () => {
+      history.goBack();
       setVisibleModal(false);
     };
 

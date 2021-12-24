@@ -1,23 +1,11 @@
-import { Route, Redirect, useLocation, useHistory } from 'react-router-dom';
-import {useDispatch, Provider, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import {store} from '../services/store.js';
+import { Route, Redirect } from 'react-router-dom';
+import {useDispatch, useSelector } from 'react-redux';
+import { useEffect} from 'react';
 import { getUserInfo} from '../services/actions/auth.js';
 
 export function ProtectedRoute({ children, ...rest }) {
-    return (
-      <Provider store={store}> 
-        <ProtectedRout children={children} rest={rest} /> 
-      </Provider>
-    )
-  }
-
-function ProtectedRout(props) {
-    const { children, rest } = props;
     const dispatch = useDispatch();
-    const {isAuth, isPasswordReset} = useSelector(state => state.userInfo);
-    const location = useLocation();
-    const history = useHistory();
+    const {isAuth} = useSelector(state => state.userInfo);
 
     useEffect(() => {
         dispatch(getUserInfo(false));

@@ -3,7 +3,7 @@ import {CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-co
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import { useLocation, Link, useHistory } from 'react-router-dom';
+import { useLocation, Link, useHistory, Redirect } from 'react-router-dom';
 import Modal from "../Modal/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/ingredients.js';
@@ -25,17 +25,17 @@ const Card = (props) => {
  }
 
 const handleOpenModal = useCallback((event, item) =>{
-   if (!event.target.outerHTML.includes('svg') && !event.target.outerHTML.includes('ModalOverlay')) {
+   if (!event.target.outerHTML.includes('svg') && !event.target.outerHTML.includes('ModalOverlay') && document.getElementById("modalID") === null) {
     dispatch(setCurrentIngredient(item));
     localStorage.setItem("currentIngredient", JSON.stringify({item}));
-    setVisibleModal(true);
+    setVisibleModal(true)
    }
   }, [])
 
   const handleCloseModal = useCallback(() => {
     dispatch(deleteCurrentIngredient());
-    setVisibleModal(false);
     history.goBack();
+    setVisibleModal(false);
   }, []);
 
   const header = "Детали ингредиента";
