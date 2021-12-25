@@ -10,15 +10,12 @@ import {
     DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
     MOVE_INGREDIENT_CONSTRUCTOR,
     UPDATE_CURRENT_TAB,
-    CREATE_ORDER,
-    CREATE_ORDER_SUCCESS,
-    CREATE_ORDER_FAILED
+    SET_MODAL_OPEN,
+    SET_MODAL_CLOSE
 } from './action.js';
 import {URL} from '../../constants/constants.js';
 
 const URL_INGREDIENTS = `${URL}/ingredients`;
-const URL_CREATE_ORDER = `${URL}/orders`;
-
 
 export const getIngredients = () => {
     return function(dispatch) {
@@ -100,11 +97,11 @@ export const moveConstructorIngredient = (dragIndex, hoverIndex) => {
   }
 }
 
-export const deleteCountIngredient = (item) => {
+export const deleteCountIngredient = (itemID) => {
   return function(dispatch) {
     dispatch({
       type: DELETE_COUNT_INGREDIENT_CONSTRUCTOR,
-      item: item
+      id: itemID
     })
   }
 }
@@ -119,34 +116,22 @@ export const updateCurrentTab = (id, ratio) => {
   }
 }
 
-export const createOrder = (oID) => {
+export const setModalOpen = () => {
   return function(dispatch) {
-  dispatch({
-    type: CREATE_ORDER
-  })
-   fetch(URL_CREATE_ORDER, {
-      method: 'POST', 
-      body: JSON.stringify(oID),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-   }).then(response => {
-    if (response && response.ok) {
-        return response.json();
-    } else {
-      dispatch({
-        type: CREATE_ORDER_FAILED
-      })
-    }
-  }).then(res => {
-      dispatch({
-        type: CREATE_ORDER_SUCCESS,
-        order: res.order
-      })
-  }).catch( err => {
-        dispatch({
-            type: CREATE_ORDER_FAILED
-        })
-      })
+    dispatch({
+      type: SET_MODAL_OPEN
+    })
+  }
 }
-} 
+
+export const setModalClose = () => {
+  return function(dispatch) {
+    dispatch({
+      type: SET_MODAL_CLOSE
+    })
+  }
+}
+
+
+
+

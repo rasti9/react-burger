@@ -1,70 +1,82 @@
-import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useState, useEffect} from "react";
+import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { MainPage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, NotFoundPage }  from '../../pages';
+import { ProtectedRoute } from '../ProtectedRoute';
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import appStyle from "./App.module.css";
-import { Provider } from 'react-redux';
-import {addConstructorIngredient, setCountIngredient, deleteConstructorIngredient, deleteCountIngredient} from '../../services/actions/index.js';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import {store} from '../../services/store.js';
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import Modal from "../Modal/Modal";
+import { getIngredients, setModalClose } from '../../services/actions/ingredients.js';
+import { useDispatch, useSelector } from 'react-redux';
 
-const AppWrapper = () => {
-  return (
-    <Provider store={store}> 
-      <App /> 
-    </Provider>
+export default function App() {
+  const ModalSwitch = () => {
+    const location = useLocation();
+    const history = useHistory();
+    let background = location.state && location.state.background;
+    const dispatch = useDispatch();
+    const { isModalOpen } = useSelector(state => state.currentIngredient);
+    
+    useEffect(()=> {
+      dispatch(getIngredients())
+    }, [])
+
+
+    const handleModalClose = () => {
+      history.goBack();
+      dispatch(setModalClose());
+    };
+
+    
+  return ( 
+    <>
+    <AppHeader />
+      <Switch location={background || location}>
+        <Route path="/" exact={true}>
+          <MainPage />
+        </Route>
+        <Route path="/login" exact={true}>
+          <LoginPage />
+        </Route>
+        <Route path="/register" exact={true}>
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPasswordPage />
+        </Route>
+        <ProtectedRoute path="/profile" exact={true}>
+          <ProfilePage />
+        </ProtectedRoute>
+        <Route path='/ingredients/:ingredientId' exact>
+            <div className={appStyle.headerText}>
+              <p className="text text_type_main-large">Детали ингредиента</p>
+            </div>
+            <IngredientDetails />
+          </Route>
+        <Route>
+          <NotFoundPage />
+        </Route>
+      </Switch>
+
+      {background && (
+          <Route
+            path='/ingredients/:ingredientId'
+            children={
+              isModalOpen && <Modal header="Детали ингредиента" handleClose={handleModalClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        )}
+      </>
   )
 }
-
-function App() {
-  const dispatch = useDispatch();
-  const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
-  const {ingredients} = useSelector(state => state.ingredients);
-
-  const handleDrop = (({_id}) => {
-    const dateStamp = new Date().getTime();
-    const draggedElement = ingredients.find(item => item._id === _id);
-    const copyDraggedElement = {...draggedElement, key: dateStamp, customID : dateStamp};
-
-    if (copyDraggedElement.type === "bun") {
-      const oPreviousBun = ingredientsConstructor.find(e => e.type === "bun");
-      if (oPreviousBun && oPreviousBun._id === draggedElement._id) {
-          return;
-      } else if (oPreviousBun && oPreviousBun._id !== copyDraggedElement._id) {
-          dispatch(deleteConstructorIngredient(oPreviousBun));
-          dispatch(deleteCountIngredient(oPreviousBun));
-          dispatch(addConstructorIngredient(copyDraggedElement));
-          dispatch(setCountIngredient(copyDraggedElement));
-          return;
-      } else {
-          dispatch(addConstructorIngredient(copyDraggedElement));
-          dispatch(setCountIngredient(copyDraggedElement));
-          return;
-      }
-    }
-    dispatch(addConstructorIngredient(copyDraggedElement));
-    dispatch(setCountIngredient(copyDraggedElement));
-
-  });
-
-  return (
-      <div>
-        <AppHeader />
-        <main className={appStyle.mainStyle}>
-          <div className={appStyle.columnStyle}>
-          <p className={appStyle.defaultStyle}>Соберите бургер</p>
-            <section className={appStyle.rowStyle}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients/>
-              <BurgerConstructor handleDrop={handleDrop}/>
-            </DndProvider>
-            </section>
-          </div>
-        </main>
-      </div>
-    ) 
+      return (
+    <Router>
+      <ModalSwitch />
+    </Router>
+  );
 }
-
-export default AppWrapper;

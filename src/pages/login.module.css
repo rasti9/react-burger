@@ -1,0 +1,19 @@
+.loginStyle {
+  margin-top: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.marginTop {
+  margin-top: 24px;
+}
+
+.marginTop80 {
+  margin-top: 80px;
+}
+
+.marginTop18 {
+  margin-top: 18px;
+}

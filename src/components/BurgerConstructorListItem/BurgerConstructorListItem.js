@@ -3,12 +3,12 @@ import burgerListItemStyle from "./BurgerConstructorListItem.module.css";
 import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import {deleteConstructorIngredient, deleteCountIngredient, moveConstructorIngredient} from '../../services/actions/index.js';
+import {deleteConstructorIngredient, deleteCountIngredient, moveConstructorIngredient} from '../../services/actions/ingredients.js';
 import { useDrag, useDrop } from "react-dnd";
 
 const BurgerConstructorListItem = (props) => {
   
-  const {index, customID, ...item} = props;
+  const {index, customID, _id, name, image, price} = props;
   const dispatch = useDispatch();
   const ref = useRef(null);
   const style = {
@@ -67,9 +67,9 @@ const BurgerConstructorListItem = (props) => {
   const opacity = isDragging ? 0 : 1;
   dragRef(dropTargetList(ref));
 
-  const handleDelete = (customID, item) => {
+  const handleDelete = (customID, itemID) => {
     dispatch(deleteConstructorIngredient(customID));
-    dispatch(deleteCountIngredient(item));
+    dispatch(deleteCountIngredient(itemID));
   }
 
   return (
@@ -79,10 +79,10 @@ const BurgerConstructorListItem = (props) => {
         <DragIcon />
         </div>
         <ConstructorElement
-          text={item.name}
-          price={item.price}
-          handleClose={() => handleDelete(customID, item)}
-          thumbnail={item.image}/>
+          text={name}
+          price={price}
+          handleClose={() => handleDelete(customID, _id)}
+          thumbnail={image}/>
         </li>
     </div>
   )
@@ -91,12 +91,10 @@ const BurgerConstructorListItem = (props) => {
 BurgerConstructorListItem.propTypes = {
   index: PropTypes.number.isRequired,
   customID: PropTypes.number.isRequired,
-  item: PropTypes.shape({
-    _id : PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
-}).isRequired
+  _id : PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired
 }
 
 export default BurgerConstructorListItem;

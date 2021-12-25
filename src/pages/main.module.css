@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "JetBrainsMono-Bold";
+  src: local("JetBrainsMono-Bold"),
+    url("../fonts/JetBrainsMono-Bold.ttf") format("truetype");
+}
+
+.mainStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.columnStyle {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowStyle {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.defaultStyle {
+  font-family: "JetBrainsMono-Bold";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 40px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}

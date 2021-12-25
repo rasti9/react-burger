@@ -1,5 +1,6 @@
 import React, {useState, useCallback, useContext} from "react";
 import burgerStyle from "./BurgerConstructor.module.css";
+import {useHistory} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import TotalSum from "../TotalSum/TotalSum";
@@ -9,12 +10,13 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 import {URL} from '../../constants/constants.js';
 import { useDrop } from "react-dnd";
-import {createOrder} from '../../services/actions/index.js';
+import {createOrder} from '../../services/actions/order.js';
 import PropTypes from 'prop-types';
 
 
 const BurgerConstructor = (props) => {
   const {handleDrop} = props;
+  const history = useHistory();
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
@@ -24,17 +26,24 @@ const BurgerConstructor = (props) => {
 });
 
   const { ingredientsConstructor } = useSelector(state => state.ingredientsConstructor);
+  
+  const {isAuth} = useSelector(state => state.userInfo);
+
   const dispatch = useDispatch();
   
   const [visibleModal, setVisibleModal] = useState(false);
 
   const handleOpenModal = () => {
-  const aIDs = [...ingredientsConstructor.map(x => x._id)];
-  const oID = {
-    "ingredients": aIDs
-  };
-    dispatch(createOrder(oID));
-    setVisibleModal(true);
+    if (isAuth) {
+      const aIDs = [...ingredientsConstructor.map(x => x._id)];
+      const oID = {
+        "ingredients": aIDs
+      };
+      dispatch(createOrder(oID));
+      setVisibleModal(true);
+    } else {
+      history.push("/login")
+    }
   }
 
   const handleCloseModal = () =>{
