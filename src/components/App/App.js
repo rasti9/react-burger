@@ -8,7 +8,6 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import { getIngredients, setModalClose } from '../../services/actions/ingredients.js';
 import { useDispatch, useSelector } from 'react-redux';
-import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/ingredients.js';
 
 export default function App() {
   const ModalSwitch = () => {
@@ -26,7 +25,6 @@ export default function App() {
     const handleModalClose = () => {
       history.goBack();
       dispatch(setModalClose());
-      dispatch(deleteCurrentIngredient());
     };
 
     

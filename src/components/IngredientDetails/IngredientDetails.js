@@ -1,21 +1,19 @@
 import React, {useEffect,useState} from "react";
 import ingredientDetailsStyle from "./IngredientDetails.module.css";
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function IngredientDetails() {
-    const { ingredients } = useSelector(state => state.ingredients);
-    let {currentIngredient} = useSelector(state => state.currentIngredient);
-    const [ingredient, setIngredient] = useState(currentIngredient);
-    const location = useLocation();
+    const { ingredients } = useSelector(state => state.ingredients);  
+    const [ingredient, setIngredient] = useState(undefined);
+
+    const { ingredientId } = useParams()
 
     useEffect(() => {
-    if (Object.keys(currentIngredient).length === 0 && location.pathname.includes("/ingredients/")) {
-        const ingredientID = location.pathname.split("/")[2];
-        currentIngredient = ingredients.find(x => x._id === ingredientID);
+        if (!ingredients) return;
+        const currentIngredient = ingredients.find(x => x._id === ingredientId);
         setIngredient(currentIngredient);
-    }
-    }, [ingredients])
+    }, [ingredients, ingredientId ])
 
     if (ingredient === undefined) {
         return <>

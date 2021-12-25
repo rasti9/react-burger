@@ -4,7 +4,6 @@ import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
 import { useLocation, Link, useHistory, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {setCurrentIngredient} from '../../services/actions/ingredients.js';
 import {setModalOpen} from "../../services/actions/ingredients.js";
 import { useDrag } from "react-dnd";
 
@@ -22,7 +21,6 @@ const Card = (props) => {
  }
 
 const handleOpenModal = useCallback((event, item) =>{
-    dispatch(setCurrentIngredient(item));
     dispatch(setModalOpen())
   }, [])
 
