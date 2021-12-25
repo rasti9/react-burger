@@ -1,21 +1,17 @@
-import React, {useState,useCallback } from "react";
+import React, {useCallback } from "react";
 import {CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyle from "./CardIngredients.module.css";
 import PropTypes from 'prop-types';
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useLocation, Link, useHistory, Redirect } from 'react-router-dom';
-import Modal from "../Modal/Modal";
 import { useSelector, useDispatch } from 'react-redux';
-import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/ingredients.js';
+import {setCurrentIngredient} from '../../services/actions/ingredients.js';
 import {setModalOpen} from "../../services/actions/ingredients.js";
 import { useDrag } from "react-dnd";
 
 const Card = (props) => {
  const {_id, item} = props;
  const location = useLocation();
- const [visibleModal, setVisibleModal] = useState(false);
  const dispatch = useDispatch();
- const history = useHistory();
 
  let counter = 0;
  const { countIngredients } = useSelector(state => state.ingredients);
@@ -27,15 +23,8 @@ const Card = (props) => {
 
 const handleOpenModal = useCallback((event, item) =>{
     dispatch(setCurrentIngredient(item));
-    localStorage.setItem("currentIngredient", JSON.stringify({item}));
     dispatch(setModalOpen())
   }, [])
-
-  const handleCloseModal = useCallback(() => {
-    dispatch(deleteCurrentIngredient());
-    history.goBack();
-    setVisibleModal(false);
-  }, []);
 
   const header = "Детали ингредиента";
 
@@ -64,11 +53,6 @@ const handleOpenModal = useCallback((event, item) =>{
             <CurrencyIcon />
         </div>
         <span className={cardStyle.fontStyle}>{item.name}</span>
-      {/* {visibleModal && (
-        <Modal handleClose={handleCloseModal} header={header}>
-          <IngredientDetails name={item.name} proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} calories={item.calories} image={item.image_large}/>
-        </Modal>
-      )} */}
       </div>
       </Link>
   )

@@ -18,7 +18,7 @@ const initialStateIngredients =  {
     ingredients: [],
     countIngredients: [],
     ingredientsRequest: [],
-    ingredientsFailed: []        
+    ingredientsFailed: []    
 }
 
 const initialStateIngredientsConstructor = {
@@ -60,7 +60,7 @@ export const getIngredients = (state = initialStateIngredients, action) => {
                 ingredientsRequest: true,
                 // Сбрасываем статус наличия ошибок от предыдущего запроса 
                 // на случай, если он был и завершился с ошибкой
-                ingredientsFailed: false,
+                ingredientsFailed: false
           };
         }
         case GET_INGREDIENTS_SUCCESS: {
@@ -72,7 +72,7 @@ export const getIngredients = (state = initialStateIngredients, action) => {
                         return {id : item._id, count: 0};
                       }),
                     // Запрос закончил своё выполнение
-                    ingredientsRequest: false 
+                    ingredientsRequest: false
                 };
         }
         case GET_INGREDIENTS_FAILED: {
@@ -82,7 +82,7 @@ export const getIngredients = (state = initialStateIngredients, action) => {
                     // выставляем соответсвующие значения в хранилище
                     ingredientsFailed: true, 
                     // Запрос закончил своё выполнение
-                    ingredientsRequest: false 
+                    ingredientsRequest: false
                 };
         }
         case SET_COUNT_INGREDIENT_CONSTRUCTOR: {

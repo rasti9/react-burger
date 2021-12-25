@@ -8,6 +8,7 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import { getIngredients, setModalClose } from '../../services/actions/ingredients.js';
 import { useDispatch, useSelector } from 'react-redux';
+import {setCurrentIngredient, deleteCurrentIngredient} from '../../services/actions/ingredients.js';
 
 export default function App() {
   const ModalSwitch = () => {
@@ -15,20 +16,20 @@ export default function App() {
     const history = useHistory();
     let background = location.state && location.state.background;
     const dispatch = useDispatch();
-
     const { isModalOpen } = useSelector(state => state.currentIngredient);
-
+    
     useEffect(()=> {
-      // Отправляем экшен-функцию
       dispatch(getIngredients())
-    }, [dispatch])
+    }, [])
 
 
     const handleModalClose = () => {
       history.goBack();
       dispatch(setModalClose());
+      dispatch(deleteCurrentIngredient());
     };
 
+    
   return ( 
     <>
     <AppHeader />
